@@ -1,91 +1,61 @@
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+from decimal import Decimal
+from django.core.validators import MinValueValidator
+
 from apps.accounts.models import User
 
-
-class Food(models.Model):
-    """Food model for tracking nutritional information"""
-    name = models.CharField(max_length=200)
-    brand = models.CharField(max_length=100, blank=True)
-    calories_per_100g = models.PositiveIntegerField()
-    protein_per_100g = models.DecimalField(max_digits=5, decimal_places=2)
-    carbs_per_100g = models.DecimalField(max_digits=5, decimal_places=2)
-    fat_per_100g = models.DecimalField(max_digits=5, decimal_places=2)
-    fiber_per_100g = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    sugar_per_100g = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    sodium_per_100g = models.DecimalField(max_digits=6, decimal_places=2, default=0)
-    barcode = models.CharField(max_length=50, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ['name', 'brand']
-
-    def __str__(self):
-        return f"{self.brand} - {self.name}" if self.brand else self.name
-
-
-class Meal(models.Model):
-    """Meal model for tracking daily meals"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='meals')
-    name = models.CharField(max_length=100)
-    meal_type = models.CharField(
-        max_length=20,
-        choices=[
-            ('breakfast', 'Breakfast'),
-            ('lunch', 'Lunch'),
-            ('dinner', 'Dinner'),
-            ('snack', 'Snack'),
-        ]
-    )
+class Nutrition(models.Model):
+    """
+    Modelo para registro nutricional
+    """
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='nutrition_entries')
     date = models.DateField()
-    notes = models.TextField(blank=True)
+    name = models.CharField(max_length=200, help_text="Nombre del alimento")
+    calories = models.PositiveIntegerField(validators=[MinValueValidator(0)])
+    
+    # Usar DecimalField para precisión en macronutrientes
+    protein_g = models.DecimalField(
+        max_digits=6, 
+        decimal_places=2, 
+        validators=[MinValueValidator(Decimal('0.00'))],
+        help_text="Proteína en gramos"
+    )
+    carbs_g = models.DecimalField(
+        max_digits=6, 
+        decimal_places=2, 
+        validators=[MinValueValidator(Decimal('0.00'))],
+        help_text="Carbohidratos en gramos"
+    )
+    fat_g = models.DecimalField(
+        max_digits=6, 
+        decimal_places=2, 
+        validators=[MinValueValidator(Decimal('0.00'))],
+        help_text="Grasa en gramos"
+    )
+    
+    # Campos adicionales útiles
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
     class Meta:
-        ordering = ['-date', 'meal_type']
-
+        ordering = ['-date', '-created_at']
+        indexes = [
+            models.Index(fields=['user', '-date']),
+            models.Index(fields=['date']),
+        ]
+        verbose_name = "Nutrition Entry"
+        verbose_name_plural = "Nutrition Entries"
+    
     def __str__(self):
-        return f"{self.user.username} - {self.name} ({self.date})"
-
-
-class MealFood(models.Model):
-    """Junction model for foods in meals"""
-    meal = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name='foods')
-    food = models.ForeignKey(Food, on_delete=models.CASCADE)
-    quantity_grams = models.DecimalField(max_digits=6, decimal_places=2)
-    notes = models.TextField(blank=True)
-
+        return f"{self.name} - {self.date} ({self.user.username})"
+    
     @property
-    def calories(self):
-        return (self.food.calories_per_100g * self.quantity_grams) / 100
-
-    @property
-    def protein(self):
-        return (self.food.protein_per_100g * self.quantity_grams) / 100
-
-    @property
-    def carbs(self):
-        return (self.food.carbs_per_100g * self.quantity_grams) / 100
-
-    @property
-    def fat(self):
-        return (self.food.fat_per_100g * self.quantity_grams) / 100
-
-    def __str__(self):
-        return f"{self.meal.name} - {self.food.name} ({self.quantity_grams}g)"
-
-
-class NutritionGoal(models.Model):
-    """Nutrition goals for users"""
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='nutrition_goals')
-    daily_calories = models.PositiveIntegerField()
-    daily_protein = models.DecimalField(max_digits=5, decimal_places=2)
-    daily_carbs = models.DecimalField(max_digits=5, decimal_places=2)
-    daily_fat = models.DecimalField(max_digits=5, decimal_places=2)
-    daily_fiber = models.DecimalField(max_digits=5, decimal_places=2, default=25)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"{self.user.username}'s Nutrition Goals"
+    def total_macros(self):
+        """Calcula total de macronutrientes"""
+        return {
+            'protein': float(self.protein_g),
+            'carbs': float(self.carbs_g),
+            'fat': float(self.fat_g),
+            'total_grams': float(self.protein_g + self.carbs_g + self.fat_g)
+            }
