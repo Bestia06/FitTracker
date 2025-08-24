@@ -1,0 +1,137 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Python files
+[*.py]
+indent_style = space
+indent_size = 4
+
+# Django templates
+[*.html]
+indent_style = space
+indent_size = 2
+
+# Django template tags
+[*.{html,htm}]
+indent_style = space
+indent_size = 2
+
+# JavaScript files
+[*.js]
+indent_style = space
+indent_size = 2
+
+# TypeScript files
+[*.ts]
+indent_style = space
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_style = space
+indent_size = 2
+
+# YAML files
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# Flutter/Dart files
+[*.dart]
+indent_style = space
+indent_size = 2
+
+# Flutter pubspec files
+[pubspec.yaml]
+indent_style = space
+indent_size = 2
+
+# CSS files
+[*.css]
+indent_style = space
+indent_size = 2
+
+# SCSS/SASS files
+[*.{scss,sass}]
+indent_style = space
+indent_size = 2
+
+# XML files
+[*.xml]
+indent_style = space
+indent_size = 2
+
+# Shell scripts
+[*.sh]
+indent_style = space
+indent_size = 2
+
+# Docker files
+[Dockerfile]
+indent_style = space
+indent_size = 4
+
+# Requirements files
+[requirements*.txt]
+indent_style = space
+indent_size = 4
+
+# Configuration files
+[*.{ini,cfg,conf}]
+indent_style = space
+indent_size = 4
+
+# SQL files
+[*.sql]
+indent_style = space
+indent_size = 4
+
+# Nginx configuration
+[nginx*.conf]
+indent_style = space
+indent_size = 4
+
+# Environment files
+[*.env*]
+indent_style = space
+indent_size = 2
+
+# Git configuration
+[.git*]
+indent_style = space
+indent_size = 2
+
+# Documentation files
+[*.rst]
+indent_style = space
+indent_size = 4
+
+# Makefiles
+[Makefile]
+indent_style = tab
+
+# Windows batch files
+[*.bat]
+indent_style = space
+indent_size = 4
+end_of_line = crlf
+
+# PowerShell files
+[*.ps1]
+indent_style = space
+indent_size = 4
+end_of_line = crlf

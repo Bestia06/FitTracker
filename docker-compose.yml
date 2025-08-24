@@ -1,42 +1,42 @@
 version: '3.8'
 
 services:
-  # PostgreSQL Database
-  db:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: fittracker
-      POSTGRES_USER: fittracker_user
-      POSTGRES_PASSWORD: fittracker_password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U fittracker_user -d fittracker"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # Redis for caching
+  # Redis for caching (local for development)
   redis:
     image: redis:7-alpine
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  # Django Backend
+  # Django Ninja Backend
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     environment:
       - DEBUG=True
-      - DATABASE_URL=postgresql://fittracker_user:fittracker_password@db:5432/fittracker
+      # Use MySQL for production
+      - USE_SQLITE=False
+      - DB_NAME=fittracker
+      - DB_USER=admin
+      - DB_PASSWORD=Alpha*FitTracker*5
+      - DB_HOST=fittrackdb.ceja6aik6pl1.us-east-1.rds.amazonaws.com
+      - DB_PORT=3306
       - REDIS_URL=redis://redis:6379/0
-      - SECRET_KEY=your-secret-key-here
+      - SECRET_KEY=your-secret-key-here-change-in-production
       - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
+      - JWT_SECRET_KEY=your-jwt-secret-key-change-in-production
+      - JWT_ACCESS_TOKEN_LIFETIME=5
+      - JWT_REFRESH_TOKEN_LIFETIME=1
+      # External APIs
+      - API_NINJA_KEY=your-api-ninja-key-here
+      - API_NINJA_BASE_URL=https://api.api-ninjas.com/v1
     volumes:
       - ./backend:/app
       - static_volume:/app/staticfiles
@@ -44,24 +44,47 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      db:
-        condition: service_healthy
       redis:
-        condition: service_started
-    command: python manage.py runserver 0.0.0.0:8000
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
 
-  # Flutter Frontend (Web)
+  # Flutter Frontend (Web) - Development
   frontend:
     build:
       context: ./frontend/fittracker_app
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
-      - "3000:80"
+      - "3000:3000"
     depends_on:
       - backend
+    environment:
+      - API_URL=http://localhost:8000/api/v1
+    volumes:
+      - ./frontend/fittracker_app/lib:/home/developer/lib
+      - ./frontend/fittracker_app/pubspec.yaml:/home/developer/pubspec.yaml
+      - ./frontend/fittracker_app/assets:/home/developer/assets
+      - ./frontend/fittracker_app/app:/home/developer/app
+      - ./frontend/fittracker_app/features:/home/developer/features
+      - ./frontend/fittracker_app/test:/home/developer/test
+      - /home/developer/.pub-cache
+
+  # Nginx Reverse Proxy (optional)
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend
+      - frontend
+    profiles:
+      - production
 
 volumes:
-  postgres_data:
   redis_data:
   static_volume:
   media_volume:

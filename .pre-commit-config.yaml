@@ -1,0 +1,280 @@
+# =============================================================================
+# FitTracker Pre-commit Configuration
+# =============================================================================
+# Pre-commit hooks ensure code quality before commits
+# Install with: pip install pre-commit && pre-commit install
+
+repos:
+  # =============================================================================
+  # Python/Django Hooks
+  # =============================================================================
+  
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      # Basic file checks
+      - id: trailing-whitespace
+        description: "Remove trailing whitespace"
+      - id: end-of-file-fixer
+        description: "Ensure files end with a newline"
+      - id: check-yaml
+        description: "Check YAML syntax"
+      - id: check-json
+        description: "Check JSON syntax"
+      - id: check-added-large-files
+        description: "Prevent large files from being committed"
+        args: [--maxkb=1000]
+      - id: check-merge-conflict
+        description: "Check for merge conflict markers"
+      - id: check-case-conflict
+        description: "Check for files with case conflicts"
+      - id: check-docstring-first
+        description: "Check that docstrings appear before code"
+      - id: check-ast
+        description: "Check Python syntax"
+      - id: check-merge-conflict
+        description: "Check for merge conflict markers"
+      - id: debug-statements
+        description: "Check for debugger imports and py.test breakpoints"
+      - id: name-tests-test
+        description: "Check that test files are named correctly"
+      - id: requirements-txt-fixer
+        description: "Sort requirements.txt"
+      - id: fix-byte-order-marker
+        description: "Remove UTF-8 byte order marker"
+
+  # Python code formatting
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        description: "Format Python code with Black"
+        language_version: python3
+        args: [--line-length=88]
+
+  # Import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        description: "Sort Python imports"
+        args: [--profile=black, --line-length=88]
+
+  # Python linting
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        description: "Lint Python code with Flake8"
+        args: [--max-line-length=88, --extend-ignore=E203,W503]
+
+  # Type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        description: "Type check Python code"
+        additional_dependencies: [types-all]
+        args: [--ignore-missing-imports]
+
+  # Security checks
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        description: "Check for security issues"
+        args: [-r, backend/, -f, json, -o, bandit-report.json]
+        exclude: ^(tests/|test_)
+
+  # Django specific checks
+  - repo: https://github.com/pycqa/pylint
+    rev: v3.0.3
+    hooks:
+      - id: pylint
+        description: "Lint Python code with Pylint"
+        args: [--rcfile=.pylintrc]
+        exclude: ^(tests/|test_|migrations/)
+
+  # =============================================================================
+  # YAML/JSON/Configuration Files
+  # =============================================================================
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        description: "Format YAML, JSON, and other files"
+        types: [yaml, json, markdown]
+        args: [--prose-wrap=always]
+
+  # =============================================================================
+  # Docker
+  # =============================================================================
+
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.12.0
+    hooks:
+      - id: hadolint-docker
+        description: "Lint Dockerfiles"
+        args: [--ignore, DL3008, --ignore, DL3009]
+
+  # =============================================================================
+  # Git
+  # =============================================================================
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        description: "Format git commit messages"
+        files: ^.git/COMMIT_EDITMSG$
+
+  # =============================================================================
+  # Documentation
+  # =============================================================================
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        description: "Format documentation files"
+        types: [markdown]
+        args: [--prose-wrap=always]
+
+  # =============================================================================
+  # Environment Files
+  # =============================================================================
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-added-large-files
+        description: "Check for large files in commits"
+        args: [--maxkb=100]
+        files: \.(env|key|pem|p12|pfx)$
+
+  # =============================================================================
+  # Custom Hooks
+  # =============================================================================
+
+  # Django migrations check
+  - repo: local
+    hooks:
+      - id: django-check
+        name: Django Check
+        entry: python manage.py check
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit]
+        description: "Run Django system checks"
+
+      - id: django-migrations
+        name: Django Migrations Check
+        entry: python manage.py makemigrations --check --dry-run
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit]
+        description: "Check for missing migrations"
+
+      - id: django-test-quick
+        name: Django Quick Tests
+        entry: python manage.py test --keepdb --parallel
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit]
+        description: "Run Django tests quickly"
+
+  # =============================================================================
+  # Flutter/Dart Hooks (if needed)
+  # =============================================================================
+
+  # Note: Flutter/Dart hooks would go here if using Dart analysis
+  # - repo: https://github.com/dart-lang/sdk
+  #   rev: stable
+  #   hooks:
+  #     - id: dart-format
+  #       description: "Format Dart code"
+  #     - id: dart-analyze
+  #       description: "Analyze Dart code"
+
+  # =============================================================================
+  # Security and Quality
+  # =============================================================================
+
+  # Check for secrets in code
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        description: "Detect secrets in code"
+        args: [--baseline, .secrets.baseline]
+
+  # Check for TODO comments
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-todo
+        description: "Check for TODO comments"
+        args: [--max-todos=10]
+
+  # =============================================================================
+  # Performance
+  # =============================================================================
+
+  # Check for performance issues
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-added-large-files
+        description: "Check for large files"
+        args: [--maxkb=5000]
+
+# =============================================================================
+# Default Configuration
+# =============================================================================
+
+default_language_version:
+  python: python3.11
+
+# =============================================================================
+# Hook Configuration
+# =============================================================================
+
+# Skip certain hooks for specific files
+exclude: |
+  (?x)^(
+      \.git/|
+      \.venv/|
+      venv/|
+      env/|
+      node_modules/|
+      build/|
+      dist/|
+      \.dart_tool/|
+      __pycache__/|
+      \.pytest_cache/|
+      \.mypy_cache/|
+      migrations/|
+      staticfiles/|
+      media/|
+      uploads/|
+      backup_*.sql|
+      *.log|
+      .env.*
+  )$
+
+# =============================================================================
+# Local Configuration
+# =============================================================================
+
+# Local hooks can be added here
+# - repo: local
+#   hooks:
+#     - id: custom-hook
+#       name: Custom Hook
+#       entry: ./scripts/custom-hook.sh
+#       language: script
+#       files: \.py$
