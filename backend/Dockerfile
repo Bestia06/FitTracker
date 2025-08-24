@@ -10,13 +10,16 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        postgresql-client \
+        default-mysql-client \
         build-essential \
-        libpq-dev \
+        libmariadb-dev \
+        pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy requirements first for better caching
+COPY requirements/ requirements/
+
 # Install Python dependencies
-COPY requirements/base.txt requirements/base.txt
 RUN pip install --no-cache-dir -r requirements/base.txt
 
 # Copy project
@@ -24,9 +27,6 @@ COPY . .
 
 # Create static and media directories
 RUN mkdir -p /app/staticfiles /app/media
-
-# Collect static files
-RUN python manage.py collectstatic --noinput
 
 # Expose port
 EXPOSE 8000
