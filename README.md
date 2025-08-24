@@ -1,86 +1,148 @@
-# FitTracker
+# 🏃‍♂️ FitTracker
 
-A comprehensive fitness tracking application built with Django (backend) and Flutter (frontend).
+<div align="center">
 
-## 🏗️ Project Structure
+![FitTracker Logo](https://img.shields.io/badge/FitTracker-Fitness%20Tracking-blue?style=for-the-badge&logo=django&logoColor=white)
+![Django](https://img.shields.io/badge/Django-4.2+-green?style=for-the-badge&logo=django&logoColor=white)
+![Flutter](https://img.shields.io/badge/Flutter-3.0+-blue?style=for-the-badge&logo=flutter&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-AWS%20RDS-orange?style=for-the-badge&logo=mysql&logoColor=white)
+
+**A comprehensive fitness tracking application built with Django Ninja (backend) and Flutter (frontend)**
+
+[🚀 Features](#-features) • [🏗️ Architecture](#️-architecture) • [🛠️ Tech Stack](#️-tech-stack) • [🚀 Quick Start](#-quick-start) • [📚 API Docs](#-api-documentation)
+
+</div>
+
+---
+
+## 🎯 Overview
+
+FitTracker is a modern fitness application that helps users track their workouts, nutrition, habits, and overall fitness progress. Built with a robust Django Ninja backend and a beautiful Flutter frontend, it provides a seamless experience across all platforms.
+
+## 🏗️ Architecture
 
 ```
 FitTracker/
-├── backend/                 # Django backend
-│   ├── apps/               # Django applications
-│   │   ├── accounts/       # User authentication & profiles
-│   │   ├── workouts/       # Workout tracking
-│   │   ├── nutrition/      # Nutrition tracking
-│   │   ├── stats/          # Statistics & progress
-│   │   └── habits/         # Habit tracking
-│   ├── config/             # Django settings
-│   ├── core/               # Core utilities
-│   ├── requirements/       # Python dependencies
-│   └── tests/              # Backend tests
-├── frontend/               # Flutter frontend
-│   └── fittracker_app/     # Flutter application
+├── 🐍 backend/                 # Django Ninja backend
+│   ├── 📱 apps/               # Django applications
+│   │   ├── 🔐 accounts/       # User authentication & profiles
+│   │   ├── 💪 workouts/       # Workout tracking & exercises
+│   │   ├── 🥗 nutrition/      # Nutrition tracking & meals
+│   │   ├── 📊 stats/          # Statistics & progress analytics
+│   │   └── ✅ habits/         # Habit tracking & streaks
+│   ├── ⚙️ config/             # Django settings & configuration
+│   ├── 🔧 core/               # Core utilities & helpers
+│   ├── 📦 requirements/       # Python dependencies
+│   └── 🧪 tests/              # Backend tests
+├── 📱 frontend/               # Flutter frontend
+│   └── fittracker_app/        # Flutter application
 │       ├── lib/
-│       │   ├── app/        # App configuration
-│       │   ├── features/   # Feature modules
-│       │   └── shared/     # Shared components
-│       └── test/           # Frontend tests
-├── docs/                   # Documentation
-├── .github/                # GitHub workflows
-└── docker-compose.yml      # Docker configuration
+│       │   ├── 🎨 app/        # App configuration & theme
+│       │   ├── 🚀 features/   # Feature modules
+│       │   └── 🔄 shared/     # Shared components & utilities
+│       └── test/              # Frontend tests
+├── 📚 docs/                   # Documentation & schemas
+├── 🐳 docker-compose.yml      # Docker configuration
+└── 📄 README.md               # This file
 ```
 
 ## 🚀 Features
 
-### Backend (Django)
-- **User Management**: Custom user model with profiles
-- **Workout Tracking**: Exercises, workouts, and progress
-- **Nutrition Tracking**: Food database and meal logging
-- **Statistics**: Body measurements and fitness goals
-- **Habit Tracking**: Daily habits and streaks
-- **REST API**: Django REST Framework
-- **Authentication**: JWT-based authentication
+### 🔐 Authentication & User Management
+- **JWT Authentication**: Secure token-based authentication
+- **Role-based Access Control**: User roles and permissions
+- **User Profiles**: Extended user information and preferences
+- **Social Login**: Integration with social platforms (planned)
 
-### Frontend (Flutter)
-- **Cross-platform**: iOS, Android, and Web support
-- **Modern UI**: Material Design 3
-- **State Management**: Riverpod
-- **Navigation**: GoRouter
-- **Responsive**: Adaptive layouts
+### 💪 Workout Tracking
+- **Exercise Library**: Comprehensive exercise database
+- **Workout Plans**: Custom and pre-built workout routines
+- **Progress Tracking**: Weight, reps, and performance metrics
+- **Workout History**: Complete workout logging and history
+
+### 🥗 Nutrition Management
+- **Food Database**: Extensive food and nutrition information
+- **Meal Logging**: Daily meal and calorie tracking
+- **Macro Tracking**: Protein, carbs, and fat monitoring
+- **Nutrition Goals**: Personalized nutrition targets
+
+### 📊 Analytics & Statistics
+- **Progress Charts**: Visual progress tracking
+- **Body Measurements**: Weight, body fat, and measurements
+- **Fitness Goals**: Goal setting and achievement tracking
+- **Performance Analytics**: Detailed workout analytics
+
+### ✅ Habit Tracking
+- **Daily Habits**: Customizable daily habit tracking
+- **Streak Counter**: Habit streak monitoring
+- **Habit Categories**: Organized habit management
+- **Progress Visualization**: Habit completion charts
 
 ## 🛠️ Tech Stack
 
-### Backend
+### 🐍 Backend (Django Ninja)
 - **Framework**: Django 4.2+
-- **Database**: PostgreSQL
-- **Cache**: Redis
-- **API**: Django REST Framework
-- **Authentication**: JWT
+- **API**: Django Ninja (Fast API-style for Django)
+- **Database**: MySQL 8.0 (AWS RDS)
+- **Authentication**: JWT (JSON Web Tokens)
+- **Cache**: Redis (planned implementation)
 - **Testing**: pytest
+- **Documentation**: Auto-generated API docs
 
-### Frontend
+### 📱 Frontend (Flutter)
 - **Framework**: Flutter 3.0+
 - **State Management**: Riverpod
 - **Navigation**: GoRouter
 - **HTTP Client**: Dio
+- **UI Framework**: Material Design 3
 - **Testing**: Flutter Test
 
-### DevOps
+### ☁️ Infrastructure
+- **Database**: AWS RDS MySQL
 - **Containerization**: Docker & Docker Compose
 - **CI/CD**: GitHub Actions
-- **Database**: PostgreSQL
-- **Cache**: Redis
+- **Cache**: Redis (planned)
+- **Monitoring**: Application monitoring (planned)
+
+## 🗄️ Database Configuration
+
+### AWS RDS MySQL Setup
+```bash
+# Database Connection Details
+Server: fittrackdb.ceja6aik6pl1.us-east-1.rds.amazonaws.com
+Database: FitTrackerDB
+Username: admin
+Password: Alpha*FitTracker*5
+Port: 3306 (default)
+```
+
+### Environment Variables
+```bash
+# Database Configuration
+DATABASE_URL=mysql://admin:Alpha*FitTracker*5@fittrackdb.ceja6aik6pl1.us-east-1.rds.amazonaws.com:3306/FitTrackerDB
+
+# Django Settings
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+# JWT Settings
+JWT_SECRET_KEY=your-jwt-secret-key
+JWT_ACCESS_TOKEN_LIFETIME=5
+JWT_REFRESH_TOKEN_LIFETIME=1
+```
 
 ## 📋 Prerequisites
 
-- Python 3.11+
-- Flutter 3.0+
-- Docker & Docker Compose
-- PostgreSQL
-- Redis
+- **Python**: 3.11+
+- **Flutter**: 3.0+
+- **Docker**: Latest version
+- **MySQL**: 8.0+ (or AWS RDS)
+- **Redis**: 6.0+ (for caching, planned)
 
 ## 🚀 Quick Start
 
-### Using Docker (Recommended)
+### 🐳 Using Docker (Recommended)
 
 1. **Clone the repository**
    ```bash
@@ -91,7 +153,7 @@ FitTracker/
 2. **Set up environment variables**
    ```bash
    cp env.example .env
-   # Edit .env with your configuration
+   # Edit .env with your AWS RDS configuration
    ```
 
 3. **Start the application**
@@ -100,11 +162,12 @@ FitTracker/
    ```
 
 4. **Access the application**
-   - Backend API: http://localhost:8000
-   - Frontend Web: http://localhost:3000
-   - Django Admin: http://localhost:8000/admin
+   - 🌐 Backend API: http://localhost:8000
+   - 📱 Frontend Web: http://localhost:3000
+   - 🔧 Django Admin: http://localhost:8000/admin
+   - 📚 API Docs: http://localhost:8000/api/docs
 
-### Manual Setup
+### 🛠️ Manual Setup
 
 #### Backend Setup
 
@@ -120,8 +183,9 @@ FitTracker/
    pip install -r requirements/dev.txt
    ```
 
-3. **Set up database**
+3. **Configure database**
    ```bash
+   # Update settings.py with AWS RDS credentials
    python manage.py migrate
    python manage.py createsuperuser
    ```
@@ -150,9 +214,20 @@ FitTracker/
 
 ## 📚 API Documentation
 
-The API documentation is available at:
-- Swagger UI: http://localhost:8000/api/docs/
-- ReDoc: http://localhost:8000/api/redoc/
+### Django Ninja Auto-generated Docs
+- **Swagger UI**: http://localhost:8000/api/docs/
+- **ReDoc**: http://localhost:8000/api/redoc/
+
+### API Endpoints Overview
+```
+/api/v1/
+├── auth/           # Authentication endpoints
+├── users/          # User management
+├── workouts/       # Workout operations
+├── nutrition/      # Nutrition tracking
+├── stats/          # Statistics & analytics
+└── habits/         # Habit management
+```
 
 ## 🧪 Testing
 
@@ -166,6 +241,12 @@ pytest
 ```bash
 cd frontend/fittracker_app
 flutter test
+```
+
+### Integration Tests
+```bash
+# Run all tests
+docker-compose -f docker-compose.test.yml up
 ```
 
 ## 📦 Deployment
@@ -183,13 +264,45 @@ flutter test
    docker-compose -f docker-compose.prod.yml up -d
    ```
 
+### AWS Deployment
+```bash
+# Deploy to AWS ECS
+aws ecs update-service --cluster fittracker-cluster --service fittracker-service --force-new-deployment
+```
+
+## 🔧 Development
+
+### Code Style
+- **Backend**: Black, isort, flake8
+- **Frontend**: Dart formatter
+- **Git Hooks**: Pre-commit hooks for code quality
+
+### Branching Strategy
+```
+main          # Production-ready code
+develop       # Integration branch
+feature/*     # New features
+bugfix/*      # Bug fixes
+hotfix/*      # Critical fixes
+```
+
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+We welcome contributions! Please follow these steps:
+
+1. **Fork the repository**
+2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Make your changes** and add tests
+4. **Commit your changes** (`git commit -m 'Add amazing feature'`)
+5. **Push to the branch** (`git push origin feature/amazing-feature`)
+6. **Open a Pull Request**
+
+### Development Guidelines
+- Write clear commit messages
+- Add tests for new features
+- Update documentation
+- Follow the existing code style
+- Ensure all tests pass
 
 ## 📄 License
 
@@ -199,21 +312,41 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](https://github.com/yourusername/fittracker/issues) page
-2. Create a new issue with detailed information
-3. Contact the maintainers
+1. 📖 Check the [Documentation](docs/)
+2. 🐛 Search [Issues](https://github.com/yourusername/fittracker/issues)
+3. 💬 Create a new issue with detailed information
+4. 📧 Contact the maintainers
 
 ## 🗺️ Roadmap
 
-- [ ] Mobile app optimization
-- [ ] Social features
-- [ ] Advanced analytics
-- [ ] Integration with fitness devices
-- [ ] Meal planning
-- [ ] Workout templates
-- [ ] Progress photos
-- [ ] Export functionality
+### 🚀 Upcoming Features
+- [ ] 🔐 JWT Role-based Authentication
+- [ ] 🗄️ Redis Caching Implementation
+- [ ] 📱 Mobile App Optimization
+- [ ] 👥 Social Features
+- [ ] 📊 Advanced Analytics
+- [ ] ⌚ Fitness Device Integration
+- [ ] 🍽️ Meal Planning
+- [ ] 📋 Workout Templates
+- [ ] 📸 Progress Photos
+- [ ] 📤 Export Functionality
+
+### 🔧 Technical Improvements
+- [ ] 🧪 Comprehensive Test Coverage
+- [ ] 📈 Performance Optimization
+- [ ] 🔒 Enhanced Security
+- [ ] 📱 PWA Support
+- [ ] 🌐 Internationalization
 
 ---
 
-Made with ❤️ by the FitTracker team
+<div align="center">
+
+**Made with ❤️ by the FitTracker team**
+
+[![GitHub stars](https://img.shields.io/github/stars/yourusername/fittracker?style=social)](https://github.com/yourusername/fittracker/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/yourusername/fittracker?style=social)](https://github.com/yourusername/fittracker/network)
+[![GitHub issues](https://img.shields.io/github/issues/yourusername/fittracker)](https://github.com/yourusername/fittracker/issues)
+[![GitHub license](https://img.shields.io/github/license/yourusername/fittracker)](https://github.com/yourusername/fittracker/blob/main/LICENSE)
+
+</div>
