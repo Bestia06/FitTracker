@@ -146,7 +146,7 @@ JWT_REFRESH_TOKEN_LIFETIME=1
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/fittracker.git
+   git clone https://github.com/josephr2316/fittracker.git
    cd fittracker
    ```
 
@@ -297,12 +297,21 @@ We welcome contributions! Please follow these steps:
 5. **Push to the branch** (`git push origin feature/amazing-feature`)
 6. **Open a Pull Request**
 
+### Team Responsibilities
+- **Backend Changes**: @jumaster23 will review Django/Python code
+- **Frontend Changes**: @Hakerman564 will review Flutter/Dart code
+- **UI/UX Changes**: @franibelmtdl will review design and user experience
+- **Database Changes**: @Bestia06 will review schema and data models
+- **Test Changes**: @josejavierbatistacastillo will review test implementations
+- **Infrastructure Changes**: @josephr2316 will review DevOps and configuration
+
 ### Development Guidelines
 - Write clear commit messages
 - Add tests for new features
 - Update documentation
 - Follow the existing code style
 - Ensure all tests pass
+- Request review from the appropriate team member based on your changes
 
 ## 📄 License
 
@@ -313,11 +322,51 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 If you encounter any issues or have questions:
 
 1. 📖 Check the [Documentation](docs/)
-2. 🐛 Search [Issues](https://github.com/yourusername/fittracker/issues)
+2. 🐛 Search [Issues](https://github.com/josephr2316/fittracker/issues)
 3. 💬 Create a new issue with detailed information
 4. 📧 Contact the maintainers
 
-## 🗺️ Roadmap
+## 👥 Team
+
+### 🏗️ Project Leadership
+- **@josephr2316** - Project Lead, AWS RDS Database Setup, JWT Implementation, Django Ninja API, Infrastructure & DevOps
+
+### 🐍 Backend Development
+- **@jumaster23** - Django Backend Development, API Endpoints, Core Backend Logic
+
+### 📱 Frontend Development
+- **@Hakerman564** - Flutter Frontend Development, Mobile App Implementation
+
+### 🎨 UX/UI Design
+- **@franibelmtdl** - User Experience & Interface Design, Frontend Assets, Design System
+
+### 🧪 Testing & Quality Assurance
+- **@josejavierbatistacastillo** - Test Implementation, Quality Assurance, Test Automation
+
+### 🗄️ Database & Schema
+- **@Bestia06** - Database Schema Design, Table Creation, Data Modeling
+
+## 📊 Project Status
+
+### ✅ Completed
+- [x] 🏗️ Project structure and architecture
+- [x] 📚 Documentation (README, CONTRIBUTING, env.example)
+- [x] 🐳 Docker configuration
+- [x] 🔧 Development environment setup
+- [x] 📋 Code quality tools (pre-commit, EditorConfig)
+- [x] 🎨 VS Code configuration
+- [x] 🗄️ Database schema design
+- [x] 👥 Team structure and responsibilities
+
+### 🚧 In Progress
+- [ ] 🔐 JWT Authentication implementation (@jumaster23 + @josephr2316)
+- [ ] 🗄️ Redis Caching setup (@josephr2316)
+- [ ] 📱 Flutter UI development (@Hakerman564 + @franibelmtdl)
+- [ ] 🐍 Django Ninja API endpoints (@jumaster23)
+- [ ] 🧪 Test implementation (@josejavierbatistacastillo)
+- [ ] 🗄️ Database tables creation (@Bestia06)
+
+### 🗺️ Roadmap
 
 ### 🚀 Upcoming Features
 - [ ] 🔐 JWT Role-based Authentication
@@ -344,9 +393,12 @@ If you encounter any issues or have questions:
 
 **Made with ❤️ by the FitTracker team**
 
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/fittracker?style=social)](https://github.com/yourusername/fittracker/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/yourusername/fittracker?style=social)](https://github.com/yourusername/fittracker/network)
-[![GitHub issues](https://img.shields.io/github/issues/yourusername/fittracker)](https://github.com/yourusername/fittracker/issues)
-[![GitHub license](https://img.shields.io/github/license/yourusername/fittracker)](https://github.com/yourusername/fittracker/blob/main/LICENSE)
+### 🏗️ Team Members
+[@josephr2316](https://github.com/josephr2316) • [@jumaster23](https://github.com/jumaster23) • [@Hakerman564](https://github.com/Hakerman564) • [@franibelmtdl](https://github.com/franibelmtdl) • [@josejavierbatistacastillo](https://github.com/josejavierbatistacastillo) • [@Bestia06](https://github.com/Bestia06)
+
+[![GitHub stars](https://img.shields.io/github/stars/josephr2316/fittracker?style=social)](https://github.com/josephr2316/fittracker/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/josephr2316/fittracker?style=social)](https://github.com/josephr2316/fittracker/network)
+[![GitHub issues](https://img.shields.io/github/issues/josephr2316/fittracker)](https://github.com/josephr2316/fittracker/issues)
+[![GitHub license](https://img.shields.io/github/license/josephr2316/fittracker)](https://github.com/josephr2316/fittracker/blob/main/LICENSE)
 
 </div>
