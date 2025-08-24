@@ -1,0 +1,220 @@
+# =============================================================================
+# FitTracker CODEOWNERS
+# =============================================================================
+# This file defines who is responsible for different parts of the codebase
+# When someone opens a pull request, the appropriate code owners are automatically requested for review
+
+# =============================================================================
+# Project Leadership & Architecture
+# =============================================================================
+
+# Overall project architecture and high-level decisions
+* @josephr2316
+
+# =============================================================================
+# Backend (Django) Ownership
+# =============================================================================
+
+# Django core configuration
+/config/ @josephr2316
+/core/ @josephr2316
+/manage.py @josephr2316
+/pyproject.toml @josephr2316
+
+# Django apps - each team member owns specific domains
+/backend/apps/accounts/ @josephr2316
+/backend/apps/workouts/ @josephr2316
+/backend/apps/nutrition/ @josephr2316
+/backend/apps/stats/ @josephr2316
+/backend/apps/habits/ @josephr2316
+
+# Django requirements and dependencies
+/backend/requirements/ @josephr2316
+
+# Django tests
+/backend/tests/ @josephr2316
+
+# Django migrations (shared responsibility)
+/backend/apps/*/migrations/ @josephr2316
+
+# =============================================================================
+# Frontend (Flutter) Ownership
+# =============================================================================
+
+# Flutter app structure
+/frontend/fittracker_app/ @josephr2316
+
+# Flutter core files
+/frontend/fittracker_app/lib/main.dart @josephr2316
+/frontend/fittracker_app/lib/app/ @josephr2316
+/frontend/fittracker_app/pubspec.yaml @josephr2316
+
+# Flutter features - each team member owns specific features
+/frontend/fittracker_app/lib/features/auth/ @josephr2316
+/frontend/fittracker_app/lib/features/workouts/ @josephr2316
+/frontend/fittracker_app/lib/features/nutrition/ @josephr2316
+/frontend/fittracker_app/lib/features/stats/ @josephr2316
+/frontend/fittracker_app/lib/features/habits/ @josephr2316
+/frontend/fittracker_app/lib/features/dashboard/ @josephr2316
+/frontend/fittracker_app/lib/features/profile/ @josephr2316
+
+# Flutter shared components
+/frontend/fittracker_app/lib/shared/ @josephr2316
+
+# Flutter tests
+/frontend/fittracker_app/test/ @josephr2316
+
+# =============================================================================
+# Infrastructure & DevOps
+# =============================================================================
+
+# Docker configuration
+/Dockerfile @josephr2316
+/docker-compose.yml @josephr2316
+/docker-compose.prod.yml @josephr2316
+
+# Nginx configuration
+/nginx.conf @josephr2316
+/nginx.prod.conf @josephr2316
+
+# Environment configuration
+/env.example @josephr2316
+/.env* @josephr2316
+
+# =============================================================================
+# Documentation
+# =============================================================================
+
+# Project documentation
+/README.md @josephr2316
+/CONTRIBUTING.md @josephr2316
+/LICENSE @josephr2316
+/CHANGELOG.md @josephr2316
+
+# Technical documentation
+/docs/ @josephr2316
+
+# API documentation
+/backend/apps/*/api/ @josephr2316
+
+# =============================================================================
+# Configuration Files
+# =============================================================================
+
+# Editor configuration
+/.editorconfig @josephr2316
+/.vscode/ @josephr2316
+
+# Code quality tools
+/.pre-commit-config.yaml @josephr2316
+/.gitignore @josephr2316
+/.pylintrc @josephr2316
+/pyproject.toml @josephr2316
+
+# CI/CD configuration
+/.github/ @josephr2316
+/.gitlab-ci.yml @josephr2316
+
+# =============================================================================
+# Database & Schema
+# =============================================================================
+
+# Database schema and migrations
+/docs/schema.sql @josephr2316
+/docs/db_erd.mmd @josephr2316
+
+# Database configuration
+/backend/config/settings.py @josephr2316
+
+# =============================================================================
+# Security & Authentication
+# =============================================================================
+
+# Authentication and security
+/backend/apps/accounts/ @josephr2316
+/frontend/fittracker_app/lib/features/auth/ @josephr2316
+/backend/core/authentication/ @josephr2316
+
+# JWT configuration
+/backend/config/jwt/ @josephr2316
+
+# =============================================================================
+# API & Integration
+# =============================================================================
+
+# API endpoints
+/backend/apps/*/api/ @josephr2316
+/backend/apps/*/views.py @josephr2316
+/backend/apps/*/urls.py @josephr2316
+
+# API client
+/frontend/fittracker_app/lib/shared/api_client.dart @josephr2316
+
+# =============================================================================
+# Testing & Quality Assurance
+# =============================================================================
+
+# Test configuration
+/backend/pytest.ini @josephr2316
+/frontend/fittracker_app/test/ @josephr2316
+
+# Test files
+/backend/apps/*/tests/ @josephr2316
+/frontend/fittracker_app/test/ @josephr2316
+
+# =============================================================================
+# Performance & Monitoring
+# =============================================================================
+
+# Performance monitoring
+/backend/core/monitoring/ @josephr2316
+/backend/core/logging/ @josephr2316
+
+# =============================================================================
+# Third-party Integrations
+# =============================================================================
+
+# AWS integration
+/backend/core/aws/ @josephr2316
+
+# External APIs
+/backend/core/integrations/ @josephr2316
+
+# =============================================================================
+# Mobile & Platform Specific
+# =============================================================================
+
+# Android specific
+/frontend/fittracker_app/android/ @josephr2316
+
+# iOS specific
+/frontend/fittracker_app/ios/ @josephr2316
+
+# Web specific
+/frontend/fittracker_app/web/ @josephr2316
+
+# =============================================================================
+# Assets & Resources
+# =============================================================================
+
+# Images and assets
+/frontend/fittracker_app/assets/ @josephr2316
+/backend/static/ @josephr2316
+/backend/media/ @josephr2316
+
+# =============================================================================
+# Emergency & Critical Files
+# =============================================================================
+
+# Critical configuration files (require multiple approvals)
+/backend/config/settings.py @josephr2316
+/env.example @josephr2316
+/docker-compose.prod.yml @josephr2316
+/nginx.prod.conf @josephr2316
+
+# =============================================================================
+# Fallback Ownership
+# =============================================================================
+
+# If no specific owner is found, these people are responsible
+* @josephr2316
