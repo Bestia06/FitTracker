@@ -5,8 +5,26 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import login
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from .serializers import UserSerializer, UserCreateSerializer, LoginSerializer
 
+@extend_schema(
+    tags=['auth'],
+    summary="Registrar nuevo usuario",
+    description="Crea un nuevo usuario en el sistema",
+    examples=[
+        OpenApiExample(
+            'Ejemplo de registro',
+            value={
+                'username': 'nuevo_usuario',
+                'email': 'usuario@example.com',
+                'password': 'password123',
+                'first_name': 'Juan',
+                'last_name': 'Pérez'
+            }
+        )
+    ]
+)
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_user(request):

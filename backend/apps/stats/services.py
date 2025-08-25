@@ -1,5 +1,5 @@
 """
-Servicios para estadísticas de FitTracker
+Services for FitTracker statistics
 """
 from datetime import date, timedelta
 from decimal import Decimal
@@ -13,26 +13,26 @@ from apps.stats.models import UserStats, HabitProgress, WorkoutStats, NutritionS
 
 
 class StatsService:
-    """Servicio para calcular estadísticas del usuario"""
+    """Service to calculate user statistics"""
     
     @staticmethod
     def get_user_stats(user):
-        """Obtiene o crea estadísticas del usuario"""
+        """Gets or creates user statistics"""
         stats, created = UserStats.objects.get_or_create(user=user)
         return stats
     
     @staticmethod
     def update_user_stats(user):
-        """Actualiza las estadísticas del usuario"""
+        """Updates user statistics"""
         stats = StatsService.get_user_stats(user)
         
-        # Calcular totales
+        # Calculate totals
         stats.total_workouts = Workout.objects.filter(user=user).count()
         stats.total_habits_completed = HabitProgress.objects.filter(
             habit__user=user, completed=True
         ).count()
         
-        # Calcular streak actual
+        # Calculate current streak
         stats.current_streak = StatsService.calculate_current_streak(user)
         
         stats.save()
@@ -40,12 +40,12 @@ class StatsService:
     
     @staticmethod
     def calculate_current_streak(user):
-        """Calcula el streak actual de hábitos completados"""
+        """Calculates current streak of completed habits"""
         today = date.today()
         streak = 0
         
-        # Verificar días consecutivos hacia atrás
-        for i in range(30):  # Máximo 30 días hacia atrás
+        # Check consecutive days backwards
+        for i in range(30):  # Maximum 30 days backwards
             check_date = today - timedelta(days=i)
             completed_today = HabitProgress.objects.filter(
                 habit__user=user,

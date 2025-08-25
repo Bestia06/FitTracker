@@ -154,7 +154,7 @@
   "breadcrumbs.enabled": true,
 
   // Minimap
-  "editor.minimap.enabled": true,
+  "editor.minimap.enabled": false,
 
   // Bracket Pair Colorization
   "editor.bracketPairColorization.enabled": true,

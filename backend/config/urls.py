@@ -12,10 +12,15 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+    SpectacularRedocView,
+)
 
 
 def api_home(request):
-    """Página de inicio de la API"""
+    """API home page"""
     return JsonResponse(
         {
             "message": "🚀 FitTracker API v2.0 - Modular Structure",
@@ -62,12 +67,12 @@ def api_home(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def register_user(request):
-    """Registrar nuevo usuario con JWT"""
+    """Register new user with JWT"""
     try:
         data = request.data
 
         if User.objects.filter(username=data["username"]).exists():
-            return Response({"error": "Usuario ya existe"}, status=400)
+            return Response({"error": "User already exists"}, status=400)
 
         user = User.objects.create_user(
             username=data["username"],
@@ -82,7 +87,7 @@ def register_user(request):
         return Response(
             {
                 "success": True,
-                "message": "🎉 Usuario registrado con JWT!",
+                "message": "🎉 User registered with JWT!",
                 "user": {
                     "id": str(user.id),
                     "username": user.username,
@@ -102,16 +107,16 @@ def register_user(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def enrich_nutrition(request):
-    """Enriquecer datos nutricionales con API Ninja o base de datos local"""
+    """Enrich nutritional data with API Ninja or local database"""
     try:
         from apps.nutrition.nutrition_data import search_nutrition_data
         from django.conf import settings
 
         food_name = request.data.get("name", "")
         if not food_name:
-            return Response({"error": "Nombre del alimento requerido"}, status=400)
+            return Response({"error": "Food name required"}, status=400)
 
-        # Primero intentar con API Ninja (solo si está configurado)
+        # First try with API Ninja (only if configured)
         if settings.API_NINJA_KEY and settings.API_NINJA_KEY != "demo-key-for-testing":
             try:
                 headers = {"X-Api-Key": settings.API_NINJA_KEY}
@@ -126,11 +131,11 @@ def enrich_nutrition(request):
                     data = response.json()
                     if data:
                         enriched = data[0]
-                        # Verificar si los datos están completos (no son premium)
+                        # Check if data is complete (not premium)
                         calories = enriched.get("calories", 0)
                         protein = enriched.get("protein_g", 0)
 
-                        # Si los datos están completos, usar API Ninja
+                        # If data is complete, use API Ninja
                         if (
                             calories != "Only available for premium subscribers"
                             and protein != "Only available for premium subscribers"
@@ -138,7 +143,7 @@ def enrich_nutrition(request):
                             return Response(
                                 {
                                     "success": True,
-                                    "message": f"✨ Datos nutricionales para: {food_name}",
+                                    "message": f"✨ Nutritional data for: {food_name}",
                                     "data": {
                                         "name": enriched.get("name", food_name),
                                         "calories": enriched.get("calories", 0),
@@ -154,15 +159,15 @@ def enrich_nutrition(request):
                                 }
                             )
             except Exception:
-                pass  # Continuar con base de datos local
+                pass  # Continue with local database
 
-        # Fallback: usar base de datos local
+        # Fallback: use local database
         local_data = search_nutrition_data(food_name)
         if local_data:
             return Response(
                 {
                     "success": True,
-                    "message": f"✨ Datos nutricionales para: {food_name}",
+                    "message": f"✨ Nutritional data for: {food_name}",
                     "data": {
                         "name": local_data["name"],
                         "calories": local_data["calories"],
@@ -172,12 +177,12 @@ def enrich_nutrition(request):
                         "sugar_g": local_data["sugar_g"],
                         "fiber_g": local_data["fiber_g"],
                     },
-                    "source": "Base de datos local",
+                    "source": "Local database",
                 }
             )
 
         return Response(
-            {"error": f"No se encontraron datos para: {food_name}"}, status=404
+            {"error": f"No data found for: {food_name}"}, status=404
         )
     except Exception as e:
         return Response({"error": f"Error: {str(e)}"}, status=500)
@@ -186,16 +191,16 @@ def enrich_nutrition(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def enrich_exercise(request):
-    """Enriquecer datos de ejercicios con API Ninja o base de datos local"""
+    """Enrich exercise data with API Ninja or local database"""
     try:
         from django.conf import settings
         from apps.workouts.exercise_data import search_exercise_data
 
         exercise_name = request.data.get("name", "")
         if not exercise_name:
-            return Response({"error": "Nombre del ejercicio requerido"}, status=400)
+            return Response({"error": "Exercise name required"}, status=400)
 
-        # Primero intentar con API Ninja (solo si está configurado)
+        # First try with API Ninja (only if configured)
         if (settings.API_NINJA_KEY and 
             settings.API_NINJA_KEY != "demo-key-for-testing"):
             try:
@@ -214,7 +219,7 @@ def enrich_exercise(request):
                         return Response(
                             {
                                 "success": True,
-                                "message": f"✨ Datos del ejercicio: {exercise_name}",
+                                "message": f"✨ Exercise data for: {exercise_name}",
                                 "data": {
                                     "name": enriched.get("name", exercise_name),
                                     "type": enriched.get("type", ""),
@@ -227,22 +232,22 @@ def enrich_exercise(request):
                             }
                         )
             except Exception:
-                pass  # Continuar con base de datos local
+                pass  # Continue with local database
 
-        # Fallback: usar base de datos local
+        # Fallback: use local database
         local_data = search_exercise_data(exercise_name)
         if local_data:
             return Response(
                 {
                     "success": True,
-                    "message": f"✨ Datos del ejercicio: {exercise_name}",
+                    "message": f"✨ Exercise data for: {exercise_name}",
                     "data": local_data,
-                    "source": "Base de datos local",
+                    "source": "Local database",
                 }
             )
 
         return Response(
-            {"error": f"No se encontraron datos para: {exercise_name}"}, status=404
+            {"error": f"No data found for: {exercise_name}"}, status=404
         )
     except Exception as e:
         return Response({"error": f"Error: {str(e)}"}, status=500)
@@ -251,16 +256,16 @@ def enrich_exercise(request):
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def search_exercises(request):
-    """Buscar ejercicios con API Ninja"""
+    """Search exercises with API Ninja"""
     try:
         from django.conf import settings
 
         exercise_name = request.GET.get("name", "")
         if not exercise_name:
-            return Response({"error": "Parámetro name requerido"}, status=400)
+            return Response({"error": "Name parameter required"}, status=400)
 
         if not settings.API_NINJA_KEY:
-            return Response({"error": "API Ninja no configurado"}, status=503)
+            return Response({"error": "API Ninja not configured"}, status=503)
 
         headers = {"X-Api-Key": settings.API_NINJA_KEY}
         response = requests.get(
@@ -275,7 +280,7 @@ def search_exercises(request):
             return Response(
                 {
                     "success": True,
-                    "message": f"🏋️ Ejercicios encontrados para: {exercise_name}",
+                    "message": f"🏋️ Exercises found for: {exercise_name}",
                     "count": len(data),
                     "results": data,
                     "source": "API Ninja",
@@ -283,7 +288,7 @@ def search_exercises(request):
             )
 
         return Response(
-            {"error": f"No se encontraron ejercicios para: {exercise_name}"}, status=404
+            {"error": f"No exercises found for: {exercise_name}"}, status=404
         )
     except Exception as e:
         return Response({"error": f"Error: {str(e)}"}, status=500)
@@ -302,11 +307,15 @@ urlpatterns = [
     path("api/nutrition/", include("apps.nutrition.urls")),
     path("api/workouts/", include("apps.workouts.urls")),
     path("api/stats/", include("apps.stats.urls")),
-    # Legacy endpoints (mantener compatibilidad)
+    # Legacy endpoints (maintain compatibility)
     path("api/auth/register/", register_user, name="register"),
     path("api/nutrition/enrich/", enrich_nutrition, name="enrich_nutrition"),
     path("api/workouts/exercises/enrich/", enrich_exercise, name="enrich_exercise"),
     path("api/workouts/exercises/search/", search_exercises, name="search_exercises"),
+    # Swagger/OpenAPI Documentation
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
     # Home
     path("", api_home, name="home"),
 ]

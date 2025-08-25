@@ -19,24 +19,11 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
     environment:
       - DEBUG=True
-      # Use MySQL for production
-      - USE_SQLITE=False
-      - DB_NAME=fittracker
-      - DB_USER=admin
-      - DB_PASSWORD=Alpha*FitTracker*5
-      - DB_HOST=fittrackdb.ceja6aik6pl1.us-east-1.rds.amazonaws.com
-      - DB_PORT=3306
       - REDIS_URL=redis://redis:6379/0
-      - SECRET_KEY=your-secret-key-here-change-in-production
-      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
-      - JWT_SECRET_KEY=your-jwt-secret-key-change-in-production
-      - JWT_ACCESS_TOKEN_LIFETIME=5
-      - JWT_REFRESH_TOKEN_LIFETIME=1
-      # External APIs
-      - API_NINJA_KEY=your-api-ninja-key-here
-      - API_NINJA_BASE_URL=https://api.api-ninjas.com/v1
     volumes:
       - ./backend:/app
       - static_volume:/app/staticfiles

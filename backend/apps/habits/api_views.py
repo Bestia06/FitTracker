@@ -12,7 +12,7 @@ from apps.stats.services import HabitProgressService
 
 
 class HabitListCreateView(generics.ListCreateAPIView):
-    """Listar y crear hábitos"""
+    """List and create habits"""
     serializer_class = HabitSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
@@ -28,7 +28,7 @@ class HabitListCreateView(generics.ListCreateAPIView):
 
 
 class HabitDetailView(generics.RetrieveUpdateDestroyAPIView):
-    """Ver, actualizar y eliminar hábito"""
+    """View, update and delete habit"""
     serializer_class = HabitSerializer
     permission_classes = [IsAuthenticated]
     
@@ -39,7 +39,7 @@ class HabitDetailView(generics.RetrieveUpdateDestroyAPIView):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def mark_habit_completed(request, pk):
-    """Marcar hábito como completado"""
+    """Mark habit as completed"""
     habit = get_object_or_404(Habit, pk=pk, user=request.user)
     
     date_completed = request.data.get('date')
@@ -55,7 +55,7 @@ def mark_habit_completed(request, pk):
     
     return Response({
         'success': True,
-        'message': 'Hábito marcado como completado',
+        'message': 'Habit marked as completed',
         'progress': {
             'id': progress.id,
             'date': progress.date.isoformat(),
@@ -68,7 +68,7 @@ def mark_habit_completed(request, pk):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def mark_habit_incomplete(request, pk):
-    """Marcar hábito como incompleto"""
+    """Mark habit as incomplete"""
     habit = get_object_or_404(Habit, pk=pk, user=request.user)
     
     date_incomplete = request.data.get('date')
@@ -82,7 +82,7 @@ def mark_habit_incomplete(request, pk):
     if progress:
         return Response({
             'success': True,
-            'message': 'Hábito marcado como incompleto',
+            'message': 'Habit marked as incomplete',
             'progress': {
                 'id': progress.id,
                 'date': progress.date.isoformat(),
@@ -93,20 +93,20 @@ def mark_habit_incomplete(request, pk):
     else:
         return Response({
             'success': True,
-            'message': 'No había progreso registrado para esta fecha'
+            'message': 'No progress was recorded for this date'
         }, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_habit_progress(request, pk):
-    """Obtener progreso de un hábito"""
+    """Get habit progress"""
     habit = get_object_or_404(Habit, pk=pk, user=request.user)
     
-    # Calcular tasa de completación
+    # Calculate completion rate
     completion_rate = HabitProgressService.get_habit_completion_rate(habit)
     
-    # Obtener progreso de los últimos 30 días
+    # Get progress from last 30 days
     from datetime import timedelta
     today = date.today()
     start_date = today - timedelta(days=30)

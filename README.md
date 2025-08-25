@@ -171,29 +171,53 @@ JWT_REFRESH_TOKEN_LIFETIME=1
 
 #### Backend Setup
 
-1. **Create virtual environment**
+1. **Navigate to backend directory**
    ```bash
    cd backend
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
-2. **Install dependencies**
+2. **Activate virtual environment**
+   ```bash
+   # On Windows PowerShell:
+   .\venv\Scripts\Activate.ps1
+   
+   # On Windows Command Prompt:
+   venv\Scripts\activate.bat
+   
+   # On Linux/Mac:
+   source venv/bin/activate
+   ```
+
+3. **Install dependencies (if not already installed)**
    ```bash
    pip install -r requirements/dev.txt
    ```
 
-3. **Configure database**
+4. **Run database migrations**
    ```bash
-   # Update settings.py with AWS RDS credentials
    python manage.py migrate
+   ```
+
+5. **Create superuser (optional)**
+   ```bash
    python manage.py createsuperuser
    ```
 
-4. **Run development server**
+6. **Start development server**
    ```bash
    python manage.py runserver
    ```
+
+   **Or use the provided script:**
+   ```bash
+   # From project root:
+   .\start_backend.ps1
+   ```
+
+7. **Access the application**
+   - 🌐 Backend API: http://127.0.0.1:8000
+   - 📚 API Documentation: http://127.0.0.1:8000/api/docs/
+   - 🔧 Django Admin: http://127.0.0.1:8000/admin
 
 #### Frontend Setup
 

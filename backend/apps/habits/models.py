@@ -6,7 +6,7 @@ from apps.accounts.models import User
 
 class Habit(models.Model):
     """
-    Modelo para hábitos de usuario
+    Model for user habits
     """
     HABIT_KINDS = [
         ('daily', 'Daily'),
@@ -22,12 +22,12 @@ class Habit(models.Model):
     )
     title = models.CharField(max_length=200)
     kind = models.CharField(max_length=20, choices=HABIT_KINDS)
-    target_value = models.FloatField(help_text="Valor objetivo del hábito")
+    target_value = models.FloatField(help_text="Habit target value")
     
-    # Validador para color hexadecimal
+    # Hex color validator
     color_validator = RegexValidator(
         regex=r'^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$',
-        message='Color debe ser formato hex válido (#FFFFFF o #FFF)'
+        message='Color must be valid hex format (#FFFFFF or #FFF)'
     )
     color_hex = models.CharField(max_length=7, validators=[color_validator])
     created_at = models.DateTimeField(auto_now_add=True)
