@@ -1,7 +1,8 @@
-from django.apps import AppConfig
+"""Habits app configuration module."""
+
+from django.apps import AppConfig  # type: ignore
 
 
-class HabitsConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.habits'
-    verbose_name = 'Habits'
+class HabitConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "apps.habits"
