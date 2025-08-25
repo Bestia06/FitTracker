@@ -1,0 +1,104 @@
+{
+  "recommendations": [
+    // Python Development
+    "ms-python.python",
+    "ms-python.black-formatter",
+    "ms-python.flake8",
+    "ms-python.mypy-type-checker",
+    "ms-python.isort",
+    "ms-python.pylint",
+    "ms-python.pytest-adapter",
+    "ms-python.vscode-pylance",
+
+    // Django Development
+    "batisteo.vscode-django",
+    "ms-python.django",
+
+    // Flutter/Dart Development
+    "Dart-Code.dart-code",
+    "Dart-Code.flutter",
+    "Dart-Code.flutter-test-explorer",
+
+    // Web Development
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-next",
+
+    // Docker
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.remote-containers",
+
+    // Git
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
+
+    // Markdown
+    "yzhang.markdown-all-in-one",
+    "shd101wyy.markdown-preview-enhanced",
+
+    // YAML/JSON
+    "redhat.vscode-yaml",
+    "ms-vscode.vscode-json",
+
+    // Database
+    "cweijan.vscode-mysql-client2",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-mysql",
+
+    // API Development
+    "humao.rest-client",
+    "ms-vscode.vscode-rest-client",
+
+    // Productivity
+    "ms-vscode.vscode-json",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "ms-vscode.vscode-eslint",
+    "ms-vscode.vscode-prettier",
+
+    // Themes and Icons
+    "PKief.material-icon-theme",
+    "zhuangtongfa.Material-theme",
+    "dracula-theme.theme-dracula",
+
+    // Code Quality
+    "streetsidesoftware.code-spell-checker",
+    "ms-vscode.vscode-typescript-next",
+    "ms-vscode.vscode-json",
+
+    // Database Tools
+    "cweijan.vscode-database-client2",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-mysql",
+
+    // Testing
+    "ms-vscode.test-adapter-converter",
+    "hbenl.vscode-test-explorer",
+
+    // Documentation
+    "ms-vscode.vscode-markdownlint",
+    "DavidAnson.vscode-markdownlint",
+
+    // Environment Files
+    "mikestead.dotenv",
+
+    // Nginx
+    "william-voyek.vscode-nginx",
+
+    // Shell Scripts
+    "ms-vscode.powershell",
+
+    // Code Snippets
+    "ms-vscode.vscode-json",
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-rename-tag",
+
+    // Project Management
+    "ms-vscode.vscode-json",
+    "ms-vscode.vscode-typescript-next"
+  ],
+  "unwantedRecommendations": [
+    "ms-vscode.vscode-typescript",
+    "ms-vscode.vscode-json"
+  ]
+}

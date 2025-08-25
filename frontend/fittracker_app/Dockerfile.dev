@@ -1,0 +1,52 @@
+# Development stage
+FROM ubuntu:22.04
+
+# Avoid warnings by switching to noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    unzip \
+    xz-utils \
+    zip \
+    libglu1-mesa \
+    openjdk-11-jdk \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up new user
+RUN useradd --create-home --shell /bin/bash developer
+WORKDIR /home/developer
+
+# Download Flutter SDK directly
+RUN wget -O flutter.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.6-stable.tar.xz \
+    && tar xf flutter.tar.xz \
+    && rm flutter.tar.xz \
+    && chown -R developer:developer /home/developer
+
+# Set environment variables
+ENV PATH="/home/developer/flutter/bin:$PATH"
+ENV FLUTTER_ROOT="/home/developer/flutter"
+
+# Switch to developer user
+USER developer
+
+# Copy the app files to the container
+COPY --chown=developer:developer . .
+
+# Pre-download Flutter dependencies
+RUN flutter precache
+
+# Enable web
+RUN flutter config --enable-web
+
+# Get app dependencies
+RUN flutter pub get
+
+# Expose port 3000 for Flutter web
+EXPOSE 3000
+
+# Start Flutter web server
+CMD ["/home/developer/flutter/bin/flutter", "run", "-d", "web-server", "--web-port", "3000", "--web-hostname", "0.0.0.0"]

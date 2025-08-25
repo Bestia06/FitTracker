@@ -1,0 +1,164 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Django Debug",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/manage.py",
+      "args": [
+        "runserver",
+        "0.0.0.0:8000"
+      ],
+      "django": true,
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend",
+        "DJANGO_SETTINGS_MODULE": "config.settings"
+      },
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend"
+      },
+      "justMyCode": true
+    },
+    {
+      "name": "Flutter: Launch Chrome",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/frontend/fittracker_app/lib/main.dart",
+      "args": [
+        "-d",
+        "chrome"
+      ],
+      "cwd": "${workspaceFolder}/frontend/fittracker_app"
+    },
+    {
+      "name": "Flutter: Launch Edge",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/frontend/fittracker_app/lib/main.dart",
+      "args": [
+        "-d",
+        "edge"
+      ],
+      "cwd": "${workspaceFolder}/frontend/fittracker_app"
+    },
+    {
+      "name": "Flutter: Attach to Device",
+      "type": "dart",
+      "request": "attach",
+      "cwd": "${workspaceFolder}/frontend/fittracker_app"
+    },
+    {
+      "name": "Flutter: Hot Reload",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/frontend/fittracker_app/lib/main.dart",
+      "args": [
+        "--hot"
+      ],
+      "cwd": "${workspaceFolder}/frontend/fittracker_app"
+    },
+    {
+      "name": "Python: Django Tests",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "args": [
+        "-v",
+        "--tb=short"
+      ],
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend",
+        "DJANGO_SETTINGS_MODULE": "config.settings"
+      },
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "Python: Django Shell",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/manage.py",
+      "args": [
+        "shell"
+      ],
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend",
+        "DJANGO_SETTINGS_MODULE": "config.settings"
+      },
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Python: Django Shell Plus",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/manage.py",
+      "args": [
+        "shell_plus"
+      ],
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend",
+        "DJANGO_SETTINGS_MODULE": "config.settings"
+      },
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Flutter: Profile Mode",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/frontend/fittracker_app/lib/main.dart",
+      "args": [
+        "--profile",
+        "-d",
+        "chrome"
+      ],
+      "cwd": "${workspaceFolder}/frontend/fittracker_app"
+    },
+    {
+      "name": "Flutter: Release Mode",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/frontend/fittracker_app/lib/main.dart",
+      "args": [
+        "--release",
+        "-d",
+        "chrome"
+      ],
+      "cwd": "${workspaceFolder}/frontend/fittracker_app"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack: Django + Flutter",
+      "configurations": [
+        "Django Debug",
+        "Flutter: Launch Chrome"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "Backend Only: Django + Tests",
+      "configurations": [
+        "Django Debug",
+        "Python: Django Tests"
+      ],
+      "stopAll": true
+    }
+  ]
+}
