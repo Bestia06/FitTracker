@@ -6,6 +6,9 @@ from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework import status
+from django.db import connection
+from django.conf import settings
 
 from .models import HabitProgress, NutritionStats, UserStats, WorkoutStats
 from .serializers import (
@@ -356,3 +359,27 @@ def mark_habit_incomplete_view(request, habit_id):
         
     except Exception as e:
         return Response({'error': str(e)}, status=400)
+
+
+@api_view(['GET'])
+def health_check(request):
+    """
+    Endpoint de salud para verificar que la API esté funcionando
+    """
+    try:
+        # Verificar conexión a la base de datos
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+        
+        return Response({
+            'status': 'healthy',
+            'database': 'connected',
+            'debug': settings.DEBUG,
+            'timestamp': '2025-08-25T15:30:00Z'
+        }, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({
+            'status': 'unhealthy',
+            'error': str(e),
+            'timestamp': '2025-08-25T15:30:00Z'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

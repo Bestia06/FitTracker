@@ -52,4 +52,6 @@ urlpatterns = [
     path("habits/<int:habit_id>/progress/", api_views.habit_progress_view, name="habit_progress_detail"),
     path("habits/<int:habit_id>/complete/", api_views.mark_habit_completed_view, name="mark_habit_completed"),
     path("habits/<int:habit_id>/incomplete/", api_views.mark_habit_incomplete_view, name="mark_habit_incomplete"),
+    # Health check
+    path("health/", api_views.health_check, name="health_check"),
 ]

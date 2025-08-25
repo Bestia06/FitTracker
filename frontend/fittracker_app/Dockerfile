@@ -1,8 +1,11 @@
-# Build stage
-FROM ubuntu:22.04 AS build
+# Use the official Flutter image
+FROM ubuntu:20.04
 
-# Avoid warnings by switching to noninteractive
+# Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
+ENV FLUTTER_VERSION=3.16.9
+ENV FLUTTER_HOME=/opt/flutter
+ENV PATH=$PATH:$FLUTTER_HOME/bin
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -16,43 +19,38 @@ RUN apt-get update && apt-get install -y \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
-# Set up new user
-RUN useradd --create-home --shell /bin/bash developer
-USER developer
-WORKDIR /home/developer
+# Download and install Flutter
+RUN git clone https://github.com/flutter/flutter.git $FLUTTER_HOME
+RUN cd $FLUTTER_HOME && git checkout $FLUTTER_VERSION
 
-# Download Flutter SDK directly (more reliable than git clone)
-RUN wget -O flutter.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.6-stable.tar.xz \
-    && tar xf flutter.tar.xz \
-    && rm flutter.tar.xz
-
-ENV PATH="$PATH:/home/developer/flutter/bin"
-
-# Copy the app files to the container
-COPY --chown=developer:developer . .
-
-# Pre-download Flutter dependencies
-RUN flutter precache
-
-# Enable web
+# Enable web support
 RUN flutter config --enable-web
 
-# Get app dependencies
+# Set work directory
+WORKDIR /app
+
+# Copy pubspec files
+COPY pubspec.yaml pubspec.lock ./
+
+# Get dependencies
 RUN flutter pub get
 
-# Build the app for the web
-RUN flutter build web
+# Copy the rest of the application
+COPY . .
 
-# Production stage
-FROM nginx:alpine
+# Build the web app
+RUN flutter build web --release
 
-# Copy the built app from the build stage
-COPY --from=build /home/developer/build/web /usr/share/nginx/html
+# Install nginx
+RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
 
 # Copy nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/sites-available/default
 
-# Expose port 80
+# Copy built app to nginx directory
+RUN cp -r build/web/* /var/www/html/
+
+# Expose port
 EXPOSE 80
 
 # Start nginx

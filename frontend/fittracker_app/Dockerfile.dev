@@ -18,20 +18,15 @@ RUN apt-get update && apt-get install -y \
 
 # Set up new user
 RUN useradd --create-home --shell /bin/bash developer
+USER developer
 WORKDIR /home/developer
 
-# Download Flutter SDK directly
+# Download Flutter SDK
 RUN wget -O flutter.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.6-stable.tar.xz \
     && tar xf flutter.tar.xz \
-    && rm flutter.tar.xz \
-    && chown -R developer:developer /home/developer
+    && rm flutter.tar.xz
 
-# Set environment variables
-ENV PATH="/home/developer/flutter/bin:$PATH"
-ENV FLUTTER_ROOT="/home/developer/flutter"
-
-# Switch to developer user
-USER developer
+ENV PATH="$PATH:/home/developer/flutter/bin"
 
 # Copy the app files to the container
 COPY --chown=developer:developer . .
@@ -45,8 +40,8 @@ RUN flutter config --enable-web
 # Get app dependencies
 RUN flutter pub get
 
-# Expose port 3000 for Flutter web
+# Expose port for development server
 EXPOSE 3000
 
-# Start Flutter web server
-CMD ["/home/developer/flutter/bin/flutter", "run", "-d", "web-server", "--web-port", "3000", "--web-hostname", "0.0.0.0"]
+# Start development server
+CMD ["flutter", "run", "-d", "web-server", "--web-port", "3000", "--web-hostname", "0.0.0.0"]

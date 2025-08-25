@@ -13,8 +13,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
-  # Django Ninja Backend
+  # Django Backend (Development)
   backend:
     build:
       context: ./backend
@@ -24,6 +25,7 @@ services:
     environment:
       - DEBUG=True
       - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=mysql://admin:Alpha*FitTracker*5@fittrackdb.ceja6aik6pl1.us-east-1.rds.amazonaws.com:3306/fittracker
     volumes:
       - ./backend:/app
       - static_volume:/app/staticfiles
@@ -37,8 +39,15 @@ services:
       sh -c "python manage.py migrate &&
              python manage.py collectstatic --noinput &&
              python manage.py runserver 0.0.0.0:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
-  # Flutter Frontend (Web) - Development
+  # Flutter Frontend (Development)
   frontend:
     build:
       context: ./frontend/fittracker_app
@@ -46,19 +55,16 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     environment:
       - API_URL=http://localhost:8000/api/v1
     volumes:
-      - ./frontend/fittracker_app/lib:/home/developer/lib
-      - ./frontend/fittracker_app/pubspec.yaml:/home/developer/pubspec.yaml
-      - ./frontend/fittracker_app/assets:/home/developer/assets
-      - ./frontend/fittracker_app/app:/home/developer/app
-      - ./frontend/fittracker_app/features:/home/developer/features
-      - ./frontend/fittracker_app/test:/home/developer/test
+      - ./frontend/fittracker_app:/home/developer/app
       - /home/developer/.pub-cache
+    restart: unless-stopped
 
-  # Nginx Reverse Proxy (optional)
+  # Nginx Reverse Proxy (Development)
   nginx:
     image: nginx:alpine
     ports:
@@ -70,6 +76,7 @@ services:
       - frontend
     profiles:
       - production
+    restart: unless-stopped
 
 volumes:
   redis_data:
