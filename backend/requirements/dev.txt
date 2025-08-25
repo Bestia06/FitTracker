@@ -4,13 +4,36 @@
 # Development and testing
 pytest==8.0.2
 pytest-django==4.8.0
+pytest-cov==4.0.0
+factory-boy==3.3.0
 
-# Code quality
+# Code quality and formatting
 black==24.2.0
 flake8==7.0.0
+isort==5.13.2
+autopep8==2.0.4
 
-# Debugging
+# Debugging and development tools
 django-debug-toolbar==4.3.0
+ipython==8.21.0
+ipdb==0.13.13
 
-# Development server
-django-extensions==3.2.3
+# Development server (moved from base since already included)
+# django-extensions==3.2.3 (already in base.txt)
+
+# Environment management
+python-dotenv==1.0.1
+
+# Database tools for development
+django-seed==0.3.1
+
+# API testing
+httpie==3.2.2
+requests-mock==1.11.0
+
+# Performance profiling
+django-silk==5.0.4
+
+# Documentation generation
+sphinx==7.2.6
+sphinx-rtd-theme==2.0.0

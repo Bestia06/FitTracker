@@ -21,6 +21,33 @@ django-filter==24.1
 # API Documentation
 drf-spectacular==0.27.1
 
+# HTTP requests
+requests==2.31.0
+
+# Date and time utilities
+python-dateutil==2.8.2
+
+# JSON handling (included in Python but explicit for clarity)
+# json - built-in Python module
+
+# Data validation and serialization
+validators==0.22.0
+
+# Timezone handling
+pytz==2023.3
+
 # Production
 gunicorn==21.2.0
 whitenoise==6.6.0
+
+# Image processing (for future user avatars/photos)
+Pillow==10.2.0
+
+# Math and calculations
+numpy==1.26.4
+
+# For API rate limiting (optional but recommended)
+django-ratelimit==4.1.0
+
+# For better error handling
+django-extensions==3.2.3

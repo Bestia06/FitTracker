@@ -1,0 +1,56 @@
+# FitTracker Backend - Optimizado para Windows
+# Este archivo evita problemas de compilación en Windows
+
+# Core Django
+Django==5.0.2
+djangorestframework==3.15.1
+
+# JWT Authentication
+djangorestframework-simplejwt==5.3.1
+
+# Environment variables
+python-decouple==3.8
+
+# CORS for frontend integration
+django-cors-headers==4.3.1
+
+# Filtering and searching
+django-filter==24.1
+
+# API Documentation
+drf-spectacular==0.27.1
+
+# HTTP requests (CRÍTICO - era lo que faltaba!)
+requests==2.31.0
+urllib3==2.1.0
+certifi==2023.11.17
+
+# Date and time utilities
+python-dateutil==2.8.2
+pytz==2023.3
+
+# JSON utilities
+jsonschema==4.20.0
+
+# Para desarrollo básico
+django-extensions==3.2.3
+
+# Base de datos SQLite (incluida en Python)
+# No necesita instalación adicional
+
+# Image processing - versión que compila mejor en Windows
+# Pillow>=8.0.0  # Comentado por problemas de compilación
+
+# Dependencias para requests
+charset-normalizer==3.3.2
+idna==3.6
+
+# Utilidades adicionales
+six==1.16.0
+
+# Para validación
+validators==0.22.0
+
+# Production básico
+gunicorn==21.2.0  # Solo para referencia, no funciona en Windows
+whitenoise==6.6.0

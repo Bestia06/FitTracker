@@ -3,9 +3,39 @@
 
 # Security
 django-secure==1.0.2
+django-security==0.17.0
 
-# Monitoring
+# Monitoring and logging
 sentry-sdk[django]==1.40.0
+django-log-request-id==2.1.0
 
-# Performance
+# Performance and caching
 django-cacheops==8.0.0
+redis==5.0.1
+django-redis==5.4.0
+
+# Database optimizations
+psycopg2-binary==2.9.9  # PostgreSQL adapter if switching from MySQL
+
+# SSL and HTTPS
+certifi==2023.11.17
+
+# Production server optimizations
+gevent==23.9.1
+eventlet==0.33.3
+
+# Health checks
+django-health-check==3.17.0
+
+# Static file serving optimization
+django-storages[s3]==1.14.2  # For AWS S3 static files
+boto3==1.34.34  # AWS SDK
+
+# API rate limiting for production
+django-ratelimit==4.1.0
+
+# Email backend
+django-ses==4.0.0
+
+# Environment variable validation
+environs[django]==11.0.0
