@@ -362,6 +362,7 @@ def mark_habit_incomplete_view(request, habit_id):
 
 
 @api_view(['GET'])
+@permission_classes([])
 def health_check(request):
     """
     Endpoint de salud para verificar que la API esté funcionando

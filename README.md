@@ -1,236 +1,314 @@
-# FitTracker - Fitness Tracking Application
+# 🏃‍♂️ FitTracker - Aplicación de Fitness Completa
 
-A comprehensive fitness tracking application built with Django REST Framework backend and Flutter frontend.
+[![Django](https://img.shields.io/badge/Django-4.2+-green.svg)](https://django.com)
+[![Flutter](https://img.shields.io/badge/Flutter-3.0+-blue.svg)](https://flutter.dev)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange.svg)](https://mysql.com)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://docker.com)
 
-## 🚀 Project Status
+**FitTracker** es una aplicación completa de fitness que combina un backend robusto en Django con una aplicación móvil moderna en Flutter, diseñada para ayudar a los usuarios a rastrear sus hábitos, entrenamientos y nutrición.
 
-✅ **Backend**: Fully functional Django API with MySQL database  
-✅ **Frontend**: Flutter web application  
-✅ **Database**: MySQL (Amazon RDS) with sample data  
-✅ **Docker**: Complete containerization setup  
-✅ **API Documentation**: Swagger/OpenAPI documentation  
+## 🎨 Diseños de Figma
 
-## 📊 Current Data
+### 📱 Diseños de la Aplicación Móvil
+- **Figma Design**: [FitTracker Mobile App Design](https://www.figma.com/design/yx0c9lSdTkqt3Lvka7VNkh/Untitled?node-id=0-1&t=8x9ECGHJFux02pXz-1)
+- **Características del diseño**:
+  - Interfaz moderna y intuitiva
+  - Paleta de colores profesional
+  - Navegación fluida con bottom navigation
+  - Pantallas de autenticación elegantes
+  - Dashboard con estadísticas visuales
+  - Gestión de hábitos con progreso visual
+  - Placeholder para entrenamientos y nutrición
 
-The application includes **50+ sample records** for each table:
-- **56 Users** (including test accounts)
-- **290 Habits** (various fitness and wellness habits)
-- **165 Exercises** (strength training, cardio, etc.)
-- **175 Workouts** (training sessions)
-- **240 Nutrition entries** (food tracking)
-- **53 User statistics** (progress tracking)
+### 🎯 Pantallas Implementadas
+1. **Splash Screen** - Pantalla de carga con animaciones
+2. **Login/Register** - Autenticación con validación
+3. **Dashboard** - Resumen de progreso y estadísticas
+4. **Habits** - Gestión y seguimiento de hábitos
+5. **Workouts** - Placeholder para entrenamientos
+6. **Nutrition** - Placeholder para nutrición
+7. **Profile** - Perfil de usuario y configuración
 
-## 🏗️ Architecture
+## 🏗️ Arquitectura del Proyecto
 
 ```
 FitTracker/
-├── backend/                 # Django REST API
-│   ├── apps/               # Django applications
-│   │   ├── accounts/       # User authentication
-│   │   ├── habits/         # Habit tracking
-│   │   ├── nutrition/      # Nutrition tracking
-│   │   ├── stats/          # Statistics & analytics
-│   │   └── workouts/       # Workout tracking
-│   ├── config/             # Django settings
-│   ├── requirements/       # Python dependencies
-│   └── Dockerfile*         # Container configurations
-├── frontend/               # Flutter application
-│   └── fittracker_app/     # Flutter web app
-├── docker-compose.yml      # Development setup
-├── docker-compose.prod.yml # Production setup
-└── nginx.conf*             # Web server configuration
+├── backend/                 # Backend Django
+│   ├── apps/               # Aplicaciones Django
+│   │   ├── accounts/       # Gestión de usuarios
+│   │   ├── habits/         # Gestión de hábitos
+│   │   ├── nutrition/      # Gestión de nutrición
+│   │   ├── workouts/       # Gestión de entrenamientos
+│   │   └── stats/          # Estadísticas y análisis
+│   ├── config/             # Configuración Django
+│   ├── requirements/       # Dependencias Python
+│   └── manage.py           # Comando Django
+├── frontend/               # Frontend Flutter
+│   └── fittracker_app/     # Aplicación Flutter
+│       ├── lib/            # Código fuente Dart
+│       ├── assets/         # Recursos (imágenes, fuentes)
+│       └── pubspec.yaml    # Dependencias Flutter
+├── docker-compose.yml      # Configuración Docker
+├── nginx.conf             # Configuración Nginx
+└── README.md              # Este archivo
 ```
 
-## 🛠️ Technology Stack
+## 🚀 Tecnologías Utilizadas
 
-### Backend
-- **Django 5.0.2** - Web framework
-- **Django REST Framework** - API framework
-- **MySQL** - Database (Amazon RDS)
-- **Redis** - Caching
-- **JWT** - Authentication
-- **Swagger/OpenAPI** - API documentation
+### Backend (Django)
+- **Framework**: Django 4.2+
+- **API**: Django REST Framework
+- **Autenticación**: JWT (JSON Web Tokens)
+- **Base de datos**: MySQL (Amazon RDS) + SQLite (local)
+- **Documentación**: Swagger/OpenAPI
+- **CORS**: django-cors-headers
+- **Validación**: django-filter
 
-### Frontend
-- **Flutter** - Cross-platform framework
-- **Dart** - Programming language
-- **Web** - Target platform
+### Frontend (Flutter)
+- **Framework**: Flutter 3.0+
+- **Estado**: Riverpod
+- **Navegación**: GoRouter
+- **HTTP**: Dio + Retrofit
+- **Almacenamiento**: SharedPreferences + SecureStorage
+- **UI**: Material Design 3
+- **Gráficos**: fl_chart + Syncfusion Charts
 
-### Infrastructure
-- **Docker** - Containerization
-- **Docker Compose** - Multi-container orchestration
-- **Nginx** - Reverse proxy
-- **AWS RDS** - Database hosting
+### DevOps
+- **Contenedores**: Docker + Docker Compose
+- **Proxy**: Nginx
+- **CI/CD**: GitHub Actions (configurado)
 
-## 🚀 Quick Start
+## 📊 Estado del Proyecto
 
-### Prerequisites
-- Docker and Docker Compose
-- Python 3.11+ (for local development)
-- Flutter SDK (for frontend development)
+### ✅ Completado
+- [x] Backend Django completamente funcional
+- [x] API REST con 39 endpoints verificados
+- [x] Autenticación JWT implementada
+- [x] Base de datos MySQL configurada
+- [x] Aplicación Flutter con UI completa
+- [x] Navegación y estado gestionado
+- [x] Diseños de Figma implementados
+- [x] Docker configurado para desarrollo y producción
+- [x] Documentación de API (Swagger)
 
-### Development Setup
+### 🔄 En Desarrollo
+- [ ] Integración completa frontend-backend
+- [ ] Funcionalidad de entrenamientos
+- [ ] Funcionalidad de nutrición
+- [ ] Gráficos y estadísticas avanzadas
+- [ ] Notificaciones push
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd FitTracker
-   ```
+## 🛠️ Instalación y Configuración
 
-2. **Start with Docker (Recommended)**
-   ```bash
-   # Start all services
-   docker-compose up
-   
-   # Or start in background
-   docker-compose up -d
-   ```
+### Prerrequisitos
+- Python 3.8+
+- Flutter 3.0+
+- Docker (opcional)
+- MySQL (para producción)
 
-3. **Access the application**
-   - **Backend API**: http://localhost:8000
-   - **API Documentation**: http://localhost:8000/api/docs/
-   - **Frontend**: http://localhost:3000
-   - **Admin Panel**: http://localhost:8000/admin
+### 1. Clonar el Repositorio
+```bash
+git clone <repository-url>
+cd FitTracker
+```
 
-### Production Deployment
+### 2. Configurar el Backend
+```bash
+# Activar entorno virtual
+cd backend
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# o
+venv\Scripts\activate     # Windows
 
-1. **Set environment variables**
-   ```bash
-   cp env.example .env
-   # Edit .env with your production values
-   ```
+# Instalar dependencias
+pip install -r requirements/dev.txt
 
-2. **Deploy with Docker Compose**
-   ```bash
-   docker-compose -f docker-compose.prod.yml up -d
-   ```
+# Configurar variables de entorno
+cp ../env.example .env
+# Editar .env con tus configuraciones
 
-3. **Access production**
-   - **Application**: http://your-domain.com
-   - **API**: http://your-domain.com/api/
+# Ejecutar migraciones
+python manage.py migrate
 
-## 📚 API Documentation
+# Crear superusuario
+python manage.py createsuperuser
 
-### Authentication
-- `POST /api/auth/jwt/login/` - JWT Login
-- `POST /api/auth/jwt/refresh/` - Refresh JWT Token
-- `POST /api/auth/register/` - User Registration
+# Iniciar servidor
+python manage.py runserver 8000
+```
 
-### Habits
-- `GET/POST /api/habits/` - List/Create habits
-- `GET/PUT/DELETE /api/habits/<id>/` - Habit details
-- `POST /api/habits/<id>/complete/` - Mark habit as completed
+### 3. Configurar el Frontend
+```bash
+# Navegar al directorio de la app
+cd frontend/fittracker_app
 
-### Workouts
-- `GET/POST /api/workouts/` - List/Create workouts
-- `GET/PUT/DELETE /api/workouts/<id>/` - Workout details
+# Obtener dependencias
+flutter pub get
 
-### Nutrition
-- `GET/POST /api/nutrition/` - List/Create nutrition entries
-- `GET/PUT/DELETE /api/nutrition/<id>/` - Nutrition entry details
+# Ejecutar la aplicación
+flutter run -d chrome --web-port 3000
+```
 
-### Statistics
-- `GET /api/stats/summary/` - User statistics summary
-- `GET /api/stats/health/` - Health check endpoint
+### 4. Verificar la Instalación
+```bash
+# Verificar endpoints del backend
+cd backend
+python verify_endpoints.py
 
-## 🔧 Development
+# Verificar integración
+cd ..
+python test_integration.py
 
-### Backend Development
+# Verificar puertos
+python check_ports.py
+```
 
-1. **Setup virtual environment**
-   ```bash
-   cd backend
-   python -m venv venv
-   source venv/bin/activate  # Linux/Mac
-   # or
-   .\venv\Scripts\Activate.ps1  # Windows
-   ```
+## 🔧 Configuración de Puertos
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements/dev.txt
-   ```
+| Servicio | Puerto | Descripción |
+|----------|--------|-------------|
+| Backend Django | 8000 | API REST |
+| Frontend Flutter | 3000 | Aplicación web |
+| MySQL | 3306 | Base de datos |
+| Nginx | 80 | Proxy reverso |
 
-3. **Run migrations**
-   ```bash
-   python manage.py migrate
-   ```
+## 📱 Uso de la Aplicación
 
-4. **Start development server**
-   ```bash
-   python manage.py runserver
-   ```
+### Credenciales de Demo
+- **Email**: `demo@fittracker.com`
+- **Contraseña**: `123456`
 
-### Frontend Development
+### Funcionalidades Disponibles
+1. **Autenticación**: Registro y login con JWT
+2. **Dashboard**: Resumen de progreso diario
+3. **Hábitos**: Crear, editar y completar hábitos
+4. **Perfil**: Información del usuario y estadísticas
+5. **API**: 39 endpoints completamente funcionales
 
-1. **Setup Flutter**
-   ```bash
-   cd frontend/fittracker_app
-   flutter pub get
-   ```
+## 🔌 Endpoints de la API
 
-2. **Run development server**
-   ```bash
-   flutter run -d web-server --web-port 3000
-   ```
+### Autenticación
+- `POST /api/auth/jwt/login/` - Login con JWT
+- `POST /api/auth/jwt/refresh/` - Renovar token
+- `POST /api/auth/register/` - Registro de usuario
+
+### Usuarios
+- `GET /api/accounts/profile/` - Perfil del usuario
+- `PUT /api/accounts/profile/` - Actualizar perfil
+
+### Hábitos
+- `GET /api/habits/` - Listar hábitos
+- `POST /api/habits/` - Crear hábito
+- `GET /api/habits/{id}/` - Detalle de hábito
+- `PUT /api/habits/{id}/` - Actualizar hábito
+- `DELETE /api/habits/{id}/` - Eliminar hábito
+
+### Nutrición
+- `GET /api/nutrition/` - Listar entradas de nutrición
+- `POST /api/nutrition/` - Crear entrada de nutrición
+- `POST /api/nutrition/enrich/` - Enriquecer datos nutricionales
+
+### Entrenamientos
+- `GET /api/workouts/` - Listar entrenamientos
+- `POST /api/workouts/` - Crear entrenamiento
+- `GET /api/workouts/exercises/search/` - Buscar ejercicios
+
+### Estadísticas
+- `GET /api/stats/summary/` - Resumen de estadísticas
+- `GET /api/stats/user/` - Estadísticas del usuario
+- `GET /api/stats/health/` - Health check
+
+### Documentación
+- `GET /api/docs/` - Swagger UI
+- `GET /api/redoc/` - ReDoc
+- `GET /api/schema/` - Esquema OpenAPI
+
+## 🐳 Docker
+
+### Desarrollo
+```bash
+docker-compose up -d
+```
+
+### Producción
+```bash
+docker-compose -f docker-compose.prod.yml up -d
+```
 
 ## 🧪 Testing
 
-### Backend Tests
+### Backend
 ```bash
 cd backend
 python manage.py test
 ```
 
-### API Verification
+### Frontend
 ```bash
-cd backend
-python verify_setup.py
+cd frontend/fittracker_app
+flutter test
 ```
 
-## 📊 Database
+### Integración
+```bash
+python test_integration.py
+```
 
-### Production Database (MySQL)
-- **Host**: Amazon RDS MySQL
-- **Data**: All sample data included
-- **Connection**: Configured in `config/settings.py`
+## 📈 Base de Datos
 
-### Development Database (SQLite)
-- **File**: `backend/db.sqlite3`
-- **Usage**: `python manage.py runserver --settings=config.settings_dev`
+### Configuración
+- **Desarrollo**: SQLite local
+- **Producción**: MySQL en Amazon RDS
+- **Migraciones**: Automáticas con Django
 
-## 🔐 Security
+### Datos de Ejemplo
+El proyecto incluye scripts para generar datos de ejemplo:
+- 50 usuarios de prueba
+- 50 hábitos por usuario
+- 50 entrenamientos por usuario
+- 50 entradas de nutrición por usuario
 
-- **JWT Authentication** for API access
-- **CORS** configured for frontend communication
-- **Environment variables** for sensitive data
-- **HTTPS** ready for production
+## 🔒 Seguridad
 
-## 📈 Monitoring
+- Autenticación JWT
+- CORS configurado
+- Validación de datos
+- Sanitización de inputs
+- Headers de seguridad
 
-- **Health Check**: `/api/stats/health/`
-- **API Documentation**: `/api/docs/`
-- **Admin Panel**: `/admin/`
+## 📚 Documentación
 
-## 🤝 Contributing
+- [API Documentation](http://localhost:8000/api/docs/)
+- [Backend README](backend/README.md)
+- [Frontend README](frontend/fittracker_app/README.md)
+- [Docker Setup](docs/docker_setup.md)
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Submit a pull request
+## 🤝 Contribución
 
-## 📄 License
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 📄 Licencia
 
-## 🆘 Support
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para detalles.
 
-For support and questions:
-- Check the [API Documentation](http://localhost:8000/api/docs/)
-- Review the [Contributing Guide](CONTRIBUTING.md)
-- Open an issue on GitHub
+## 👥 Equipo
+
+- **Desarrollo Backend**: Django + DRF
+- **Desarrollo Frontend**: Flutter
+- **Diseño UI/UX**: Figma
+- **DevOps**: Docker + Nginx
+
+## 📞 Soporte
+
+- **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
+- **Documentación**: [Wiki](https://github.com/your-repo/wiki)
+- **Email**: support@fittracker.com
 
 ---
 
-**FitTracker** - Track your fitness journey with ease! 💪
+**FitTracker** - Tu compañero de fitness personal 🏃‍♂️💪

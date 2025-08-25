@@ -5,7 +5,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class ApiClient {
   ApiClient(this._storage) {
     _dio = Dio(BaseOptions(
-      baseUrl: const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://10.0.2.2:8080'),
+      baseUrl: const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://10.0.2.2:8000'),
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 20),
     ));
