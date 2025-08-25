@@ -18,11 +18,11 @@ class AppRouter {
       final container = ProviderScope.containerOf(context);
       final isAuthenticated = container.read(authProvider);
       
-      if (!isAuthenticated && state.location != '/login' && state.location != '/register') {
+      if (!isAuthenticated && state.matchedLocation != '/login' && state.matchedLocation != '/register') {
         return '/login';
       }
       
-      if (isAuthenticated && (state.location == '/login' || state.location == '/register')) {
+      if (isAuthenticated && (state.matchedLocation == '/login' || state.matchedLocation == '/register')) {
         return '/dashboard';
       }
       
@@ -112,7 +112,7 @@ class _MainScaffoldState extends ConsumerState<MainScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    final currentRoute = GoRouterState.of(context).location;
+    final currentRoute = GoRouterState.of(context).matchedLocation;
     _currentIndex = _navigationItems.indexWhere((item) => item.route == currentRoute);
     if (_currentIndex == -1) _currentIndex = 0;
 
