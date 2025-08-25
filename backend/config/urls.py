@@ -1,236 +1,312 @@
+import requests
+from apps.accounts.models import User
 from django.contrib import admin
-from django.urls import path
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from django.views import View
+from django.urls import include, path
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 from rest_framework_simplejwt.tokens import RefreshToken
-from apps.habits.models import Habit
-from apps.accounts.models import User
-import json
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
+
 
 def api_home(request):
-    return JsonResponse({
-        'message': '🚀 FitTracker API v2.0 - JWT + API Ninja',
-        'status': 'running',
-        'features': {'jwt_auth': True, 'api_ninja': True},
-        'endpoints': {
-            'auth': {
-                'jwt_login': 'POST /api/auth/jwt/login/',
-                'jwt_refresh': 'POST /api/auth/jwt/refresh/',
-                'register': 'POST /api/auth/register/',
+    """Página de inicio de la API"""
+    return JsonResponse(
+        {
+            "message": "🚀 FitTracker API v2.0 - Modular Structure",
+            "status": "running",
+            "features": {
+                "jwt_auth": True,
+                "modular_structure": True,
+                "api_ninja": True,
             },
-            'habits': 'GET/POST /api/habits/',
-            'nutrition_enrich': 'POST /api/nutrition/enrich/',
-            'exercise_search': 'GET /api/workouts/exercises/search/',
-            'admin': '/admin/'
+            "endpoints": {
+                "auth": {
+                    "jwt_login": "POST /api/auth/jwt/login/",
+                    "jwt_refresh": "POST /api/auth/jwt/refresh/",
+                    "register": "POST /api/accounts/register/",
+                    "profile": "GET /api/accounts/profile/",
+                },
+                "habits": {
+                    "list": "GET/POST /api/habits/",
+                    "detail": "GET/PUT/DELETE /api/habits/<id>/",
+                },
+                "nutrition": {
+                    "list": "GET/POST /api/nutrition/",
+                    "detail": "GET/PUT/DELETE /api/nutrition/<id>/",
+                    "enrich": "POST /api/nutrition/enrich/",
+                },
+                "workouts": {
+                    "list": "GET/POST /api/workouts/",
+                    "detail": "GET/PUT/DELETE /api/workouts/<id>/",
+                    "search_exercises": "GET /api/workouts/exercises/search/",
+                },
+                "stats": {
+                    "summary": "GET /api/stats/summary/",
+                    "user_stats": "GET/PUT /api/stats/user/",
+                    "habit_progress": "GET/POST /api/stats/habits/progress/",
+                    "workout_stats": "GET/POST /api/stats/workouts/",
+                    "nutrition_stats": "GET/POST /api/stats/nutrition/",
+                },
+                "admin": "/admin/",
+            },
         }
-    })
+    )
 
-@method_decorator(csrf_exempt, name='dispatch')
-class HabitAPI(View):
-    def get(self, request, habit_id=None):
-        try:
-            if habit_id:
-                habit = Habit.objects.get(id=habit_id)
-                return JsonResponse({
-                    'id': habit.id,
-                    'title': habit.title,
-                    'kind': habit.kind,
-                    'target_value': habit.target_value,
-                    'color_hex': habit.color_hex,
-                    'created_at': habit.created_at.isoformat()
-                })
-            else:
-                habits = Habit.objects.all()
-                habit_list = [{
-                    'id': h.id,
-                    'title': h.title,
-                    'kind': h.kind,
-                    'target_value': h.target_value,
-                    'color_hex': h.color_hex,
-                    'created_at': h.created_at.isoformat()
-                } for h in habits]
-                
-                return JsonResponse({
-                    'count': len(habit_list),
-                    'results': habit_list,
-                    'message': f'📋 {len(habit_list)} hábitos (JWT + API Ninja activos)'
-                })
-        except Habit.DoesNotExist:
-            return JsonResponse({'error': 'Hábito no encontrado'}, status=404)
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
-    
-    def post(self, request):
-        try:
-            data = json.loads(request.body)
-            
-            user, created = User.objects.get_or_create(
-                username='defaultuser',
-                defaults={'email': 'default@fittracker.com'}
-            )
-            
-            habit = Habit.objects.create(
-                title=data['title'],
-                kind=data['kind'],
-                target_value=float(data['target_value']),
-                color_hex=data['color_hex'],
-                user=user
-            )
-            
-            return JsonResponse({
-                'success': True,
-                'message': '🎯 Hábito creado con JWT + API Ninja!',
-                'habit': {
-                    'id': habit.id,
-                    'title': habit.title,
-                    'kind': habit.kind,
-                    'target_value': habit.target_value,
-                    'color_hex': habit.color_hex
-                }
-            }, status=201)
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
 
-@api_view(['POST'])
+@api_view(["POST"])
 @permission_classes([AllowAny])
 def register_user(request):
+    """Registrar nuevo usuario con JWT"""
     try:
         data = request.data
-        
-        if User.objects.filter(username=data['username']).exists():
-            return Response({'error': 'Usuario ya existe'}, status=400)
-        
-        user = User.objects.create_user(
-            username=data['username'],
-            email=data['email'],
-            password=data['password'],
-            first_name=data.get('first_name', ''),
-            last_name=data.get('last_name', '')
-        )
-        
-        refresh = RefreshToken.for_user(user)
-        
-        return Response({
-            'success': True,
-            'message': '🎉 Usuario registrado con JWT!',
-            'user': {
-                'id': str(user.id),
-                'username': user.username,
-                'email': user.email
-            },
-            'tokens': {
-                'refresh': str(refresh),
-                'access': str(refresh.access_token)
-            }
-        }, status=201)
-    except Exception as e:
-        return Response({'error': str(e)}, status=400)
 
-@api_view(['POST'])
+        if User.objects.filter(username=data["username"]).exists():
+            return Response({"error": "Usuario ya existe"}, status=400)
+
+        user = User.objects.create_user(
+            username=data["username"],
+            email=data["email"],
+            password=data["password"],
+            first_name=data.get("first_name", ""),
+            last_name=data.get("last_name", ""),
+        )
+
+        refresh = RefreshToken.for_user(user)
+
+        return Response(
+            {
+                "success": True,
+                "message": "🎉 Usuario registrado con JWT!",
+                "user": {
+                    "id": str(user.id),
+                    "username": user.username,
+                    "email": user.email,
+                },
+                "tokens": {
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                },
+            },
+            status=201,
+        )
+    except Exception as e:
+        return Response({"error": str(e)}, status=400)
+
+
+@api_view(["POST"])
 @permission_classes([AllowAny])
 def enrich_nutrition(request):
+    """Enriquecer datos nutricionales con API Ninja o base de datos local"""
     try:
-        import requests
+        from apps.nutrition.nutrition_data import search_nutrition_data
         from django.conf import settings
-        
-        food_name = request.data.get('name', '')
-        if not food_name:
-            return Response({'error': 'Nombre del alimento requerido'}, status=400)
-        
-        if not settings.API_NINJA_KEY:
-            return Response({'error': 'API Ninja no configurado - revisa archivo .env'}, status=503)
-        
-        headers = {'X-Api-Key': settings.API_NINJA_KEY}
-        response = requests.get(
-            f"{settings.API_NINJA_BASE_URL}/nutrition",
-            headers=headers,
-            params={'query': food_name},
-            timeout=10
-        )
-        
-        if response.status_code == 200:
-            data = response.json()
-            if data:
-                enriched = data[0]
-                return Response({
-                    'success': True,
-                    'message': f'✨ Datos nutricionales obtenidos para: {food_name}',
-                    'data': {
-                        'name': enriched.get('name', food_name),
-                        'calories': enriched.get('calories', 0),
-                        'protein_g': enriched.get('protein_g', 0),
-                        'carbs_g': enriched.get('carbohydrates_total_g', 0),
-                        'fat_g': enriched.get('fat_total_g', 0),
-                        'sugar_g': enriched.get('sugar_g', 0),
-                        'fiber_g': enriched.get('fiber_g', 0)
-                    },
-                    'source': 'API Ninja'
-                })
-        
-        return Response({'error': f'No se encontraron datos nutricionales para: {food_name}'}, status=404)
-    except Exception as e:
-        return Response({'error': f'Error: {str(e)}'}, status=500)
 
-@api_view(['GET'])  
+        food_name = request.data.get("name", "")
+        if not food_name:
+            return Response({"error": "Nombre del alimento requerido"}, status=400)
+
+        # Primero intentar con API Ninja (solo si está configurado)
+        if settings.API_NINJA_KEY and settings.API_NINJA_KEY != "demo-key-for-testing":
+            try:
+                headers = {"X-Api-Key": settings.API_NINJA_KEY}
+                response = requests.get(
+                    f"{settings.API_NINJA_BASE_URL}/nutrition",
+                    headers=headers,
+                    params={"query": food_name},
+                    timeout=10,
+                )
+
+                if response.status_code == 200:
+                    data = response.json()
+                    if data:
+                        enriched = data[0]
+                        # Verificar si los datos están completos (no son premium)
+                        calories = enriched.get("calories", 0)
+                        protein = enriched.get("protein_g", 0)
+
+                        # Si los datos están completos, usar API Ninja
+                        if (
+                            calories != "Only available for premium subscribers"
+                            and protein != "Only available for premium subscribers"
+                        ):
+                            return Response(
+                                {
+                                    "success": True,
+                                    "message": f"✨ Datos nutricionales para: {food_name}",
+                                    "data": {
+                                        "name": enriched.get("name", food_name),
+                                        "calories": enriched.get("calories", 0),
+                                        "protein_g": enriched.get("protein_g", 0),
+                                        "carbs_g": enriched.get(
+                                            "carbohydrates_total_g", 0
+                                        ),
+                                        "fat_g": enriched.get("fat_total_g", 0),
+                                        "sugar_g": enriched.get("sugar_g", 0),
+                                        "fiber_g": enriched.get("fiber_g", 0),
+                                    },
+                                    "source": "API Ninja",
+                                }
+                            )
+            except Exception:
+                pass  # Continuar con base de datos local
+
+        # Fallback: usar base de datos local
+        local_data = search_nutrition_data(food_name)
+        if local_data:
+            return Response(
+                {
+                    "success": True,
+                    "message": f"✨ Datos nutricionales para: {food_name}",
+                    "data": {
+                        "name": local_data["name"],
+                        "calories": local_data["calories"],
+                        "protein_g": local_data["protein_g"],
+                        "carbs_g": local_data["carbs_g"],
+                        "fat_g": local_data["fat_g"],
+                        "sugar_g": local_data["sugar_g"],
+                        "fiber_g": local_data["fiber_g"],
+                    },
+                    "source": "Base de datos local",
+                }
+            )
+
+        return Response(
+            {"error": f"No se encontraron datos para: {food_name}"}, status=404
+        )
+    except Exception as e:
+        return Response({"error": f"Error: {str(e)}"}, status=500)
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def enrich_exercise(request):
+    """Enriquecer datos de ejercicios con API Ninja o base de datos local"""
+    try:
+        from django.conf import settings
+        from apps.workouts.exercise_data import search_exercise_data
+
+        exercise_name = request.data.get("name", "")
+        if not exercise_name:
+            return Response({"error": "Nombre del ejercicio requerido"}, status=400)
+
+        # Primero intentar con API Ninja (solo si está configurado)
+        if (settings.API_NINJA_KEY and 
+            settings.API_NINJA_KEY != "demo-key-for-testing"):
+            try:
+                headers = {"X-Api-Key": settings.API_NINJA_KEY}
+                response = requests.get(
+                    f"{settings.API_NINJA_BASE_URL}/exercises",
+                    headers=headers,
+                    params={"name": exercise_name},
+                    timeout=10,
+                )
+
+                if response.status_code == 200:
+                    data = response.json()
+                    if data:
+                        enriched = data[0]
+                        return Response(
+                            {
+                                "success": True,
+                                "message": f"✨ Datos del ejercicio: {exercise_name}",
+                                "data": {
+                                    "name": enriched.get("name", exercise_name),
+                                    "type": enriched.get("type", ""),
+                                    "muscle": enriched.get("muscle", ""),
+                                    "equipment": enriched.get("equipment", ""),
+                                    "difficulty": enriched.get("difficulty", ""),
+                                    "instructions": enriched.get("instructions", ""),
+                                },
+                                "source": "API Ninja",
+                            }
+                        )
+            except Exception:
+                pass  # Continuar con base de datos local
+
+        # Fallback: usar base de datos local
+        local_data = search_exercise_data(exercise_name)
+        if local_data:
+            return Response(
+                {
+                    "success": True,
+                    "message": f"✨ Datos del ejercicio: {exercise_name}",
+                    "data": local_data,
+                    "source": "Base de datos local",
+                }
+            )
+
+        return Response(
+            {"error": f"No se encontraron datos para: {exercise_name}"}, status=404
+        )
+    except Exception as e:
+        return Response({"error": f"Error: {str(e)}"}, status=500)
+
+
+@api_view(["GET"])
 @permission_classes([AllowAny])
 def search_exercises(request):
+    """Buscar ejercicios con API Ninja"""
     try:
-        import requests
         from django.conf import settings
-        
-        exercise_name = request.GET.get('name', '')
+
+        exercise_name = request.GET.get("name", "")
         if not exercise_name:
-            return Response({'error': 'Parámetro name requerido. Ejemplo: /api/workouts/exercises/search/?name=push-up'}, status=400)
-        
+            return Response({"error": "Parámetro name requerido"}, status=400)
+
         if not settings.API_NINJA_KEY:
-            return Response({'error': 'API Ninja no configurado - revisa archivo .env'}, status=503)
-        
-        headers = {'X-Api-Key': settings.API_NINJA_KEY}
+            return Response({"error": "API Ninja no configurado"}, status=503)
+
+        headers = {"X-Api-Key": settings.API_NINJA_KEY}
         response = requests.get(
             f"{settings.API_NINJA_BASE_URL}/exercises",
             headers=headers,
-            params={'name': exercise_name},
-            timeout=10
+            params={"name": exercise_name},
+            timeout=10,
         )
-        
+
         if response.status_code == 200:
             data = response.json()
-            return Response({
-                'success': True,
-                'message': f'🏋️ Ejercicios encontrados para: {exercise_name}',
-                'count': len(data),
-                'results': data,
-                'source': 'API Ninja'
-            })
-        
-        return Response({'error': f'No se encontraron ejercicios para: {exercise_name}'}, status=404)
+            return Response(
+                {
+                    "success": True,
+                    "message": f"🏋️ Ejercicios encontrados para: {exercise_name}",
+                    "count": len(data),
+                    "results": data,
+                    "source": "API Ninja",
+                }
+            )
+
+        return Response(
+            {"error": f"No se encontraron ejercicios para: {exercise_name}"}, status=404
+        )
     except Exception as e:
-        return Response({'error': f'Error: {str(e)}'}, status=500)
+        return Response({"error": f"Error: {str(e)}"}, status=500)
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    
+    # Admin
+    path("admin/", admin.site.urls),
     # JWT Authentication endpoints
-    path('api/auth/jwt/login/', TokenObtainPairView.as_view(), name='jwt_login'),
-    path('api/auth/jwt/refresh/', TokenRefreshView.as_view(), name='jwt_refresh'),
-    path('api/auth/jwt/verify/', TokenVerifyView.as_view(), name='jwt_verify'),
-    path('api/auth/register/', register_user, name='register'),
-    
-    # API endpoints
-    path('api/habits/', HabitAPI.as_view(), name='habits'),
-    path('api/habits/<int:habit_id>/', HabitAPI.as_view(), name='habit_detail'),
-    
-    # API Ninja endpoints  
-    path('api/nutrition/enrich/', enrich_nutrition, name='enrich_nutrition'),
-    path('api/workouts/exercises/search/', search_exercises, name='search_exercises'),
-    
+    path("api/auth/jwt/login/", TokenObtainPairView.as_view(), name="jwt_login"),
+    path("api/auth/jwt/refresh/", TokenRefreshView.as_view(), name="jwt_refresh"),
+    path("api/auth/jwt/verify/", TokenVerifyView.as_view(), name="jwt_verify"),
+    # Modular API endpoints
+    path("api/accounts/", include("apps.accounts.urls")),
+    path("api/habits/", include("apps.habits.urls")),
+    path("api/nutrition/", include("apps.nutrition.urls")),
+    path("api/workouts/", include("apps.workouts.urls")),
+    path("api/stats/", include("apps.stats.urls")),
+    # Legacy endpoints (mantener compatibilidad)
+    path("api/auth/register/", register_user, name="register"),
+    path("api/nutrition/enrich/", enrich_nutrition, name="enrich_nutrition"),
+    path("api/workouts/exercises/enrich/", enrich_exercise, name="enrich_exercise"),
+    path("api/workouts/exercises/search/", search_exercises, name="search_exercises"),
     # Home
-    path('', api_home, name='home'),
+    path("", api_home, name="home"),
 ]

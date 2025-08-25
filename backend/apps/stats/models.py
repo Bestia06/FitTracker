@@ -1,73 +1,100 @@
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
 from apps.accounts.models import User
+from apps.habits.models import Habit
 
 
-class BodyMeasurement(models.Model):
-    """Body measurements tracking"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='body_measurements')
-    date = models.DateField()
-    weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    body_fat_percentage = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
-    muscle_mass = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    chest = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    waist = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    hips = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    biceps = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    thighs = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    notes = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['-date']
-        unique_together = ['user', 'date']
-
-    def __str__(self):
-        return f"{self.user.username} - {self.date}"
-
-
-class FitnessGoal(models.Model):
-    """Fitness goals tracking"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='fitness_goals')
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
-    goal_type = models.CharField(
-        max_length=50,
-        choices=[
-            ('weight_loss', 'Weight Loss'),
-            ('muscle_gain', 'Muscle Gain'),
-            ('endurance', 'Endurance'),
-            ('strength', 'Strength'),
-            ('flexibility', 'Flexibility'),
-            ('general_fitness', 'General Fitness'),
-        ]
+class UserStats(models.Model):
+    """
+    Estadísticas generales del usuario
+    """
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name='stats'
     )
-    target_value = models.DecimalField(max_digits=8, decimal_places=2)
-    current_value = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    unit = models.CharField(max_length=20)
-    target_date = models.DateField()
-    is_completed = models.BooleanField(default=False)
+    total_workouts = models.IntegerField(default=0)
+    total_habits_completed = models.IntegerField(default=0)
+    total_calories_consumed = models.FloatField(default=0.0)
+    total_calories_burned = models.FloatField(default=0.0)
+    current_streak = models.IntegerField(default=0)
+    longest_streak = models.IntegerField(default=0)
+    last_activity_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_at']
+        verbose_name = "Estadística de Usuario"
+        verbose_name_plural = "Estadísticas de Usuario"
 
     def __str__(self):
-        return f"{self.user.username} - {self.title}"
+        return f"Stats de {self.user.username}"
 
 
-class ProgressLog(models.Model):
-    """Progress tracking logs"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='progress_logs')
-    goal = models.ForeignKey(FitnessGoal, on_delete=models.CASCADE, related_name='progress_logs')
-    value = models.DecimalField(max_digits=8, decimal_places=2)
+class HabitProgress(models.Model):
+    """
+    Progreso de hábitos específicos
+    """
+    habit = models.ForeignKey(
+        Habit, on_delete=models.CASCADE, related_name='progress'
+    )
     date = models.DateField()
+    completed = models.BooleanField(default=False)
+    value = models.FloatField(default=0.0)
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        unique_together = ['habit', 'date']
         ordering = ['-date']
+        verbose_name = "Progreso de Hábito"
+        verbose_name_plural = "Progresos de Hábitos"
 
     def __str__(self):
-        return f"{self.user.username} - {self.goal.title} ({self.date})"
+        return f"{self.habit.title} - {self.date}"
+
+
+class WorkoutStats(models.Model):
+    """
+    Estadísticas específicas de entrenamientos
+    """
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='workout_stats'
+    )
+    date = models.DateField()
+    total_duration = models.IntegerField(default=0)  # en minutos
+    total_calories_burned = models.FloatField(default=0.0)
+    workout_count = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['user', 'date']
+        ordering = ['-date']
+        verbose_name = "Estadística de Entrenamiento"
+        verbose_name_plural = "Estadísticas de Entrenamientos"
+
+    def __str__(self):
+        return f"Workout Stats - {self.user.username} - {self.date}"
+
+
+class NutritionStats(models.Model):
+    """
+    Estadísticas específicas de nutrición
+    """
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='nutrition_stats'
+    )
+    date = models.DateField()
+    total_calories = models.FloatField(default=0.0)
+    total_protein = models.FloatField(default=0.0)
+    total_carbs = models.FloatField(default=0.0)
+    total_fat = models.FloatField(default=0.0)
+    total_fiber = models.FloatField(default=0.0)
+    meal_count = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['user', 'date']
+        ordering = ['-date']
+        verbose_name = "Estadística de Nutrición"
+        verbose_name_plural = "Estadísticas de Nutrición"
+
+    def __str__(self):
+        return f"Nutrition Stats - {self.user.username} - {self.date}"

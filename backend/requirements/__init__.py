@@ -1,1 +1,1 @@
-# Python requirements package
+# Requirements package

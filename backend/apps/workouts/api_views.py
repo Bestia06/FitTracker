@@ -6,11 +6,12 @@ from rest_framework.filters import OrderingFilter
 from .models import Workout
 from .serializers import WorkoutSerializer, WorkoutCreateSerializer
 
+
 class WorkoutListCreateView(generics.ListCreateAPIView):
     """Listar y crear entrenamientos"""
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ['date', 'workout_type']
+    filterset_fields = ['date', 'status']
     ordering_fields = ['date', 'created_at']
     ordering = ['-date', '-created_at']
     
@@ -20,7 +21,8 @@ class WorkoutListCreateView(generics.ListCreateAPIView):
         return WorkoutSerializer
     
     def get_queryset(self):
-        return Workout.objects.filter(user=self.request.user)
+        return Workout.objects.filter(habit__user=self.request.user)
+
 
 class WorkoutDetailView(generics.RetrieveUpdateDestroyAPIView):
     """Ver, actualizar y eliminar entrenamiento"""
@@ -28,4 +30,4 @@ class WorkoutDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
-        return Workout.objects.filter(user=self.request.user)
+        return Workout.objects.filter(habit__user=self.request.user)

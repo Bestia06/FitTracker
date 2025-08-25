@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "apps.habits",
     "apps.nutrition",
     "apps.workouts",
+    "apps.stats",  # ← AGREGADA: Stats app
 ]
 
 MIDDLEWARE = [
@@ -77,12 +78,14 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database - Configuración flexible con variables de entorno
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "fittracker",
-        "USER": "admin",
-        "PASSWORD": "Alpha*FitTracker*5",
-        "HOST": "fittrackdb.ceja6aik6pl1.us-east-1.rds.amazonaws.com",
-        "PORT": "3306",
+        "ENGINE": config("DB_ENGINE", default="django.db.backends.mysql"),
+        "NAME": config("DB_NAME", default="fittracker"),
+        "USER": config("DB_USER", default="admin"),
+        "PASSWORD": config("DB_PASSWORD", default="Alpha*FitTracker*5"),
+        "HOST": config(
+            "DB_HOST", default="fittrackdb.ceja6aik6pl1.us-east-1.rds.amazonaws.com"
+        ),
+        "PORT": config("DB_PORT", default="3306"),
         "OPTIONS": {
             "charset": "utf8mb4",
             "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -119,7 +122,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "core.pagination.FitTrackerPagination",
     "PAGE_SIZE": 20,
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
@@ -149,19 +152,22 @@ SIMPLE_JWT = {
 }
 
 # API NINJA CONFIGURATION - NUEVA
-API_NINJA_KEY = config("API_NINJA_KEY", default="demo-key-for-testing")
-API_NINJA_BASE_URL = "https://api.api-ninjas.com/v1"
+API_NINJA_KEY = config(
+    "API_NINJA_KEY", default="n6ou0W+GEJfS20DbFPCvWA==3RuTgcuOXRykkFa3"
+)
+API_NINJA_BASE_URL = config(
+    "API_NINJA_BASE_URL", default="https://api.api-ninjas.com/v1"
+)
 
 # CORS configuration (para el frontend)
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React/Next.js
-    "http://127.0.0.1:3000",
-    "http://localhost:8080",  # Vue
-    "http://127.0.0.1:8080",
-]
+CORS_ALLOWED_ORIGINS = config(
+    "CORS_ALLOWED_ORIGINS",
+    default="http://localhost:3000,http://127.0.0.1:3000,http://localhost:8080,http://127.0.0.1:8080",
+    cast=lambda v: [s.strip() for s in v.split(",")],
+)
 
-# Para desarrollo, permite todas las origins (CUIDADO: solo en desarrollo)
-CORS_ALLOW_ALL_ORIGINS = True  # Cambiar a False en producción
+# Para desarrollo, permite todas las origins (CUIDADO: solo en producción)
+CORS_ALLOW_ALL_ORIGINS = config("CORS_ALLOW_ALL_ORIGINS", default=True, cast=bool)
 
 # Internationalization
 LANGUAGE_CODE = "es-es"
