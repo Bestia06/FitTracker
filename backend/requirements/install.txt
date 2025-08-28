@@ -37,3 +37,5 @@ django-extensions==3.2.3
 
 # Image processing básico
 Pillow==10.2.0
+
+
