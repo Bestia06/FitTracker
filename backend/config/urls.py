@@ -58,6 +58,14 @@ def api_home(request):
                     "workout_stats": "GET/POST /api/stats/workouts/",
                     "nutrition_stats": "GET/POST /api/stats/nutrition/",
                 },
+                "notifications": {
+                    "list": "GET/POST /api/notifications/",
+                    "detail": "GET/PUT/DELETE /api/notifications/<id>/",
+                    "mark_read": "POST /api/notifications/<id>/read/",
+                    "mark_dismissed": "POST /api/notifications/<id>/dismiss/",
+                    "mark_all_read": "POST /api/notifications/mark-all-read/",
+                    "count": "GET /api/notifications/count/",
+                },
                 "admin": "/admin/",
             },
         }
@@ -307,6 +315,7 @@ urlpatterns = [
     path("api/nutrition/", include("apps.nutrition.urls")),
     path("api/workouts/", include("apps.workouts.urls")),
     path("api/stats/", include("apps.stats.urls")),
+    path("api/notifications/", include("apps.notifications.urls")),
     # Legacy endpoints (maintain compatibility)
     path("api/auth/register/", register_user, name="register"),
     path("api/nutrition/enrich/", enrich_nutrition, name="enrich_nutrition"),

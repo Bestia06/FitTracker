@@ -10,6 +10,7 @@
 ## 🎨 Diseños de Figma
 
 ### 📱 Diseños de la Aplicación Móvil
+
 - **Figma Design**: [FitTracker Mobile App Design](https://www.figma.com/design/yx0c9lSdTkqt3Lvka7VNkh/Untitled?node-id=0-1&t=8x9ECGHJFux02pXz-1)
 - **Características del diseño**:
   - Interfaz moderna y intuitiva
@@ -21,6 +22,7 @@
   - Placeholder para entrenamientos y nutrición
 
 ### 🎯 Pantallas Implementadas
+
 1. **Splash Screen** - Pantalla de carga con animaciones
 2. **Login/Register** - Autenticación con validación
 3. **Dashboard** - Resumen de progreso y estadísticas
@@ -56,6 +58,7 @@ FitTracker/
 ## 🚀 Tecnologías Utilizadas
 
 ### Backend (Django)
+
 - **Framework**: Django 5.0.2
 - **API**: Django REST Framework
 - **Autenticación**: JWT (JSON Web Tokens)
@@ -65,6 +68,7 @@ FitTracker/
 - **Validación**: django-filter
 
 ### Frontend (Flutter)
+
 - **Framework**: Flutter 3.0+
 - **Estado**: Riverpod
 - **Navegación**: GoRouter
@@ -74,6 +78,7 @@ FitTracker/
 - **Gráficos**: fl_chart + Syncfusion Charts
 
 ### DevOps
+
 - **Contenedores**: Docker + Docker Compose
 - **Proxy**: Nginx
 - **CI/CD**: GitHub Actions (configurado)
@@ -81,6 +86,7 @@ FitTracker/
 ## 📊 Estado del Proyecto
 
 ### ✅ Completado
+
 - [x] Backend Django completamente funcional
 - [x] API REST con 39 endpoints verificados
 - [x] Autenticación JWT implementada
@@ -92,6 +98,7 @@ FitTracker/
 - [x] Documentación de API (Swagger)
 
 ### 🔄 En Desarrollo
+
 - [ ] Integración completa frontend-backend
 - [ ] Funcionalidad de entrenamientos
 - [ ] Funcionalidad de nutrición
@@ -101,18 +108,21 @@ FitTracker/
 ## 🛠️ Instalación y Configuración
 
 ### Prerrequisitos
+
 - Python 3.8+
 - Flutter 3.0+
 - Docker (opcional)
 - MySQL (para producción)
 
 ### 1. Clonar el Repositorio
+
 ```bash
 git clone <repository-url>
 cd FitTracker
 ```
 
 ### 2. Configurar el Backend
+
 ```bash
 # Activar entorno virtual
 cd backend
@@ -139,6 +149,7 @@ python manage.py runserver 8000
 ```
 
 ### 3. Configurar el Frontend
+
 ```bash
 # Navegar al directorio de la app
 cd frontend/fittracker_app
@@ -151,6 +162,7 @@ flutter run -d chrome --web-port 3000
 ```
 
 ### 4. Verificar la Instalación
+
 ```bash
 # Verificar endpoints del backend
 cd backend
@@ -176,10 +188,12 @@ python check_ports.py
 ## 📱 Uso de la Aplicación
 
 ### Credenciales de Demo
+
 - **Email**: `demo@fittracker.com`
 - **Contraseña**: `123456`
 
 ### Funcionalidades Disponibles
+
 1. **Autenticación**: Registro y login con JWT
 2. **Dashboard**: Resumen de progreso diario
 3. **Hábitos**: Crear, editar y completar hábitos
@@ -189,15 +203,18 @@ python check_ports.py
 ## 🔌 Endpoints de la API
 
 ### Autenticación
+
 - `POST /api/auth/jwt/login/` - Login con JWT
 - `POST /api/auth/jwt/refresh/` - Renovar token
 - `POST /api/auth/register/` - Registro de usuario
 
 ### Usuarios
+
 - `GET /api/accounts/profile/` - Perfil del usuario
 - `PUT /api/accounts/profile/` - Actualizar perfil
 
 ### Hábitos
+
 - `GET /api/habits/` - Listar hábitos
 - `POST /api/habits/` - Crear hábito
 - `GET /api/habits/{id}/` - Detalle de hábito
@@ -205,21 +222,25 @@ python check_ports.py
 - `DELETE /api/habits/{id}/` - Eliminar hábito
 
 ### Nutrición
+
 - `GET /api/nutrition/` - Listar entradas de nutrición
 - `POST /api/nutrition/` - Crear entrada de nutrición
 - `POST /api/nutrition/enrich/` - Enriquecer datos nutricionales
 
 ### Entrenamientos
+
 - `GET /api/workouts/` - Listar entrenamientos
 - `POST /api/workouts/` - Crear entrenamiento
 - `GET /api/workouts/exercises/search/` - Buscar ejercicios
 
 ### Estadísticas
+
 - `GET /api/stats/summary/` - Resumen de estadísticas
 - `GET /api/stats/user/` - Estadísticas del usuario
 - `GET /api/stats/health/` - Health check
 
 ### Documentación
+
 - `GET /api/docs/` - Swagger UI
 - `GET /api/redoc/` - ReDoc
 - `GET /api/schema/` - Esquema OpenAPI
@@ -227,11 +248,13 @@ python check_ports.py
 ## 🐳 Docker
 
 ### Desarrollo
+
 ```bash
 docker-compose up -d
 ```
 
 ### Producción
+
 ```bash
 docker-compose -f docker-compose.prod.yml up -d
 ```
@@ -239,18 +262,21 @@ docker-compose -f docker-compose.prod.yml up -d
 ## 🧪 Testing
 
 ### Backend
+
 ```bash
 cd backend
 python manage.py test
 ```
 
 ### Frontend
+
 ```bash
 cd frontend/fittracker_app
 flutter test
 ```
 
 ### Integración
+
 ```bash
 python test_integration.py
 ```
@@ -258,12 +284,15 @@ python test_integration.py
 ## 📈 Base de Datos
 
 ### Configuración
+
 - **Desarrollo**: SQLite local
 - **Producción**: MySQL en Amazon RDS
 - **Migraciones**: Automáticas con Django
 
 ### Datos de Ejemplo
+
 El proyecto incluye scripts para generar datos de ejemplo:
+
 - 50 usuarios de prueba
 - 50 hábitos por usuario
 - 50 entrenamientos por usuario
@@ -307,7 +336,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 - **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
 - **Documentación**: [Wiki](https://github.com/your-repo/wiki)
-- **Email**: support@fittracker.com
+- **Email**: <support@fittracker.com>
 
 ---
 

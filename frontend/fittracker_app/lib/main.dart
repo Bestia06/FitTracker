@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'app/app.dart';
+import 'app/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/providers/providers.dart';
 
@@ -27,7 +27,7 @@ class FitTrackerApp extends ConsumerWidget {
       themeMode: themeMode,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      routerConfig: AppRouter.router,
+      routerConfig: appRouter,
       localizationsDelegates: const [
         // Add localization delegates here
       ],

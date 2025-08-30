@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "apps.nutrition",
     "apps.workouts",
     "apps.stats",  # ← ADDED: Stats app
+    "apps.notifications",  # ← ADDED: Notifications app
 ]
 
 MIDDLEWARE = [

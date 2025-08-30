@@ -1,13 +1,14 @@
 {
-    "name": "fittracker_app",
-    "short_name": "fittracker_app",
+    "name": "FitTracker - Tu compañero de fitness personal",
+    "short_name": "FitTracker",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#1a1a2e",
+    "theme_color": "#16213e",
+    "description": "Rastrea tus hábitos, entrenamientos y nutrición. Tu compañero de fitness personal.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
+    "categories": ["health", "fitness", "lifestyle"],
     "icons": [
         {
             "src": "icons/Icon-192.png",
