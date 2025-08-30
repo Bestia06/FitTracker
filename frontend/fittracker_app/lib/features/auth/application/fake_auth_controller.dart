@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/auth_state.dart';
 import '../data/fake_auth_repository.dart';
 import 'auth_controller.dart';
@@ -6,7 +5,8 @@ import 'auth_controller.dart';
 class FakeAuthController extends AuthController {
   FakeAuthController(FakeAuthRepository repo)
       : _repo = repo,
-        super(repo as dynamic); // El super espera AuthRepository, pero no se usará
+        super(repo
+            as dynamic); // El super espera AuthRepository, pero no se usará
 
   final FakeAuthRepository _repo;
 

@@ -1,6 +1,6 @@
 # 🏃‍♂️ FitTracker - Aplicación de Fitness Completa
 
-[![Django](https://img.shields.io/badge/Django-4.2+-green.svg)](https://django.com)
+[![Django](https://img.shields.io/badge/Django-5.0.2-green.svg)](https://django.com)
 [![Flutter](https://img.shields.io/badge/Flutter-3.0+-blue.svg)](https://flutter.dev)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange.svg)](https://mysql.com)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://docker.com)
@@ -56,7 +56,7 @@ FitTracker/
 ## 🚀 Tecnologías Utilizadas
 
 ### Backend (Django)
-- **Framework**: Django 4.2+
+- **Framework**: Django 5.0.2
 - **API**: Django REST Framework
 - **Autenticación**: JWT (JSON Web Tokens)
 - **Base de datos**: MySQL (Amazon RDS) + SQLite (local)

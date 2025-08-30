@@ -39,3 +39,5 @@ django-extensions==3.2.3
 Pillow==10.2.0
 
 
+
+

@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
@@ -10,7 +9,8 @@ class FakeUser {
   final String id;
   final String email;
   final String displayName;
-  const FakeUser({required this.id, required this.email, required this.displayName});
+  const FakeUser(
+      {required this.id, required this.email, required this.displayName});
 }
 
 class _FakeApiClient implements ApiClient {
@@ -33,7 +33,6 @@ class _FakeTokenStorage implements TokenStorage {
 }
 
 class FakeAuthRepository extends AuthRepository {
-
   FakeAuthRepository() : super(_FakeApiClient(), _FakeTokenStorage());
 
   FakeUser? _currentUser;
@@ -44,16 +43,19 @@ class FakeAuthRepository extends AuthRepository {
   Stream<FakeUser?> authStateChanges() => _controller.stream;
 
   // Fake login compatible con AuthRepository
+  @override
   Future<({String access, String? refresh, Set<String> roles})> login({
     required String email,
     required String password,
   }) async {
     // Simula login exitoso
-    _currentUser = FakeUser(id: 'dev123', email: email, displayName: 'Dev User');
+    _currentUser =
+        FakeUser(id: 'dev123', email: email, displayName: 'Dev User');
     _controller.add(_currentUser);
     return (access: 'fake_access', refresh: 'fake_refresh', roles: {'DEV'});
   }
 
+  @override
   Future<void> logout() async {
     _currentUser = null;
     _controller.add(null);
@@ -61,7 +63,8 @@ class FakeAuthRepository extends AuthRepository {
 
   // Para el mecanismo de auto-login
   void signInDev() {
-    _currentUser = const FakeUser(id: 'dev123', email: 'dev@demo.com', displayName: 'Dev User');
+    _currentUser = const FakeUser(
+        id: 'dev123', email: 'dev@demo.com', displayName: 'Dev User');
     _controller.add(_currentUser);
   }
 

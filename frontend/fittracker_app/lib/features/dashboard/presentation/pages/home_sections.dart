@@ -80,7 +80,11 @@ class _HabitRow extends StatelessWidget {
   final IconData icon;
   final bool checked;
   final ValueChanged<bool?>? onChanged;
-  const _HabitRow({required this.label, required this.icon, required this.checked, this.onChanged});
+  const _HabitRow(
+      {required this.label,
+      required this.icon,
+      required this.checked,
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -96,11 +100,14 @@ class _HabitRow extends StatelessWidget {
               data: Theme.of(context).copyWith(
                 unselectedWidgetColor: cs.primary,
                 checkboxTheme: CheckboxThemeData(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6)),
                   side: BorderSide(color: cs.primary, width: 2),
-                  fillColor: MaterialStateProperty.resolveWith<Color>((states) => Colors.transparent),
-                  checkColor: MaterialStateProperty.all(Colors.green),
-                  overlayColor: MaterialStateProperty.all(cs.primary.withOpacity(0.08)),
+                  fillColor: WidgetStateProperty.resolveWith<Color>(
+                      (states) => Colors.transparent),
+                  checkColor: WidgetStateProperty.all(Colors.green),
+                  overlayColor:
+                      WidgetStateProperty.all(cs.primary.withOpacity(0.08)),
                   splashRadius: 27,
                 ),
               ),
@@ -110,7 +117,8 @@ class _HabitRow extends StatelessWidget {
                 activeColor: Colors.transparent,
                 checkColor: Colors.green,
                 side: BorderSide(color: cs.primary, width: 2),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6)),
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 visualDensity: VisualDensity.compact,
               ),
@@ -137,21 +145,22 @@ class _HabitRow extends StatelessWidget {
   }
 }
 
-
 class ProgressSection extends StatelessWidget {
   const ProgressSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-  final cs = Theme.of(context).colorScheme;
-  final tt = Theme.of(context).textTheme;
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
 
-  return Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 8.0, bottom: 12.0),
-          child: Text('Progress', style: tt.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: cs.primary)),
+          child: Text('Progress',
+              style: tt.titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold, color: cs.primary)),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -171,7 +180,8 @@ class _ProgressCircle extends StatelessWidget {
   final String label;
   final double percent;
   final Color color;
-  const _ProgressCircle({required this.label, required this.percent, required this.color});
+  const _ProgressCircle(
+      {required this.label, required this.percent, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -206,8 +216,8 @@ class WorkoutsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final cs = Theme.of(context).colorScheme;
-  final tt = Theme.of(context).textTheme;
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
       padding: const EdgeInsets.all(16),
@@ -221,14 +231,18 @@ class WorkoutsSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Workouts', style: tt.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: cs.primary)),
+              Text('Workouts',
+                  style: tt.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold, color: cs.primary)),
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: cs.primary,
                   foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
                 child: const Text('Add new'),
               ),
@@ -248,8 +262,8 @@ class _WorkoutItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final cs = Theme.of(context).colorScheme;
-  final tt = Theme.of(context).textTheme;
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
